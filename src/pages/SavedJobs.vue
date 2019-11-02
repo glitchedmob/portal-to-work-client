@@ -3,9 +3,13 @@
         <q-page id="saved-jobs">
             <div class="saved-jobs-page-container">
                 <div class="card-container">
-                    <job-card></job-card>
-                    <job-card></job-card>
-                    <job-card></job-card>
+                    <job-card
+                        title="Delivery Driver"
+                        sub-title="Gold Mechanical"
+                        main-icon="favorite"
+                        walking-distance="5 min"
+                        busing-distance="10 min"
+                    />
                 </div>
             </div>
         </q-page>
@@ -14,9 +18,12 @@
 
 <script>
     import JobCard from "../components/JobCard";
+
     export default {
         name: 'SavedJobs',
-        components: {JobCard}
+        components: {
+            JobCard,
+        }
     }
 </script>
 

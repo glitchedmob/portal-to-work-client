@@ -69,11 +69,7 @@
 </template>
 
 <script>
-    import JobCard from "../components/JobCard";
-
     export default {
-        name: "JobsFilter.vue",
-        components: {JobCard},
         data: () => ({
             showWalkingDistance: false,
             showBikingDistance: false,

@@ -9,13 +9,37 @@
 
             <div class="card-container">
 
-                <job-card></job-card>
-                <job-card></job-card>
-                <job-card></job-card>
-                <job-card></job-card>
-                <job-card></job-card>
-                <job-card></job-card>
+                <job-card
+                    title="Delivery Driver"
+                    sub-title="Gold Mechanical"
+                    main-icon="favorite"
+                    walking-distance="5 min"
+                    busing-distance="10 min"
+                />
 
+                <job-card
+                    title="Delivery Driver"
+                    sub-title="Gold Mechanical"
+                    main-icon="favorite"
+                    walking-distance="5 min"
+                    busing-distance="10 min"
+                />
+
+                <job-card
+                    title="Delivery Driver"
+                    sub-title="Gold Mechanical"
+                    main-icon="favorite"
+                    walking-distance="5 min"
+                    busing-distance="10 min"
+                />
+
+                <job-card
+                    title="Delivery Driver"
+                    sub-title="Gold Mechanical"
+                    main-icon="favorite"
+                    walking-distance="5 min"
+                    busing-distance="10 min"
+                />
             </div>
         </div>
     </q-page>
