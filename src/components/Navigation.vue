@@ -1,6 +1,5 @@
 <template>
     <q-tabs
-        v-model="tab"
         inline-label
         class="fixed-nav bg-primary text-white shadow-2">
         <q-route-tab exact name="home" icon="home" to="jobs" />
