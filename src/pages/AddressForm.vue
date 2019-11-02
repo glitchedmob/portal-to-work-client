@@ -90,9 +90,6 @@
     export default {
         google: null,
         created() {
-            googleMaps().then((google) => {
-               this.$options.google = google;
-            });
         },
         data: () => ({
             showError: false,
@@ -133,6 +130,10 @@
                     return;
                 }
 
+                this.$q.loading.show({
+                    message: 'Getting current location',
+                });
+
                 navigator.geolocation.getCurrentPosition(({ coords }) => {
                     this.updateCoordinates({
                         latitude: coords.latitude,
@@ -145,11 +146,17 @@
                     this.updateState('');
                     this.updateZipCode('');
 
+                    this.$q.loading.hide();
+
                     this.navigate();
                 });
             },
-            setAddress() {
-                const { google } = this.$options;
+            async setAddress() {
+                this.$q.loading.show({
+                    message: 'Saving address'
+                });
+
+                const google = await googleMaps();
 
                 if(google == null) {
                     this.displayError('Error saving address');
@@ -170,6 +177,8 @@
                         latitude: coordinates.lat(),
                         longitude: coordinates.lng(),
                     });
+
+                    this.$q.loading.hide();
 
                     this.navigate();
                 });
