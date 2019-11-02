@@ -51,6 +51,7 @@
                         size="lg"
                         unelevated
                         rounded
+                        @click="setAddress"
                         color="primary"
                         label="Use This Address"
                     />
@@ -79,8 +80,15 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
+    import { googleMaps } from '../common/google-maps';
 
     export default {
+        google: null,
+        created() {
+            googleMaps().then((google) => {
+               this.$options.google = google;
+            });
+        },
         data: () => ({
             locationError: false,
         }),
@@ -110,6 +118,9 @@
                     this.locationError = true;
                 }
             },
+            setAddress() {
+                console.log(this.$options.google);
+            }
         },
     };
 </script>
