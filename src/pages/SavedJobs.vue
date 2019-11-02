@@ -1,5 +1,11 @@
 <template>
-  <h1>saved Jobs</h1>
+    <q-page class="flex flex-center">
+        <h1>Saved Jobs</h1>
+    </q-page>
 </template>
-<script></script>
-<style></style>
+
+<script>
+    export default {
+        name: 'PageIndex'
+    }
+</script>
