@@ -8,6 +8,7 @@ const routes = [
         component: () => import('layouts/MainLayout.vue'),
         children: [
             { path: 'jobs', component: () => import('pages/JobListing.vue') },
+            { path: 'jobs/filter', component: () => import('pages/JobsFilter.vue') },
             { path: 'jobs/detail', component: () => import('pages/JobDetail.vue') },
             { path: 'notifications', component: () => import('pages/Notifications.vue') },
             { path: 'saved-jobs', component: () => import('pages/SavedJobs.vue') },
