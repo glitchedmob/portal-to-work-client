@@ -1,5 +1,5 @@
 <template>
-    <div id="listing-page">
+    <q-page id="listing-page">
         <div class="listing-page-container">
             <div class="search-bar" style="max-width: 300px">
                 <q-input square outlined v-model="text" placeholder="Search" value="">
@@ -18,7 +18,7 @@
 
             </div>
         </div>
-    </div>
+    </q-page>
 </template>
 
 <script>

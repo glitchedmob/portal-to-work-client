@@ -33,11 +33,14 @@
                             @input="updateCity"
                             label="City"
                         />
-                        <q-input
+                        <q-select
                             outlined
                             :value="state"
                             @input="updateState"
-                            label="state"
+                            label="State"
+                            :options="options"
+                            emit-value
+                            map-options
                         />
                         <q-input
                             outlined
@@ -51,6 +54,7 @@
                         size="lg"
                         unelevated
                         rounded
+                        @click="setAddress"
                         color="primary"
                         label="Use This Address"
                     />
@@ -58,14 +62,14 @@
             </q-page-container>
         </q-layout>
         <q-dialog
-            v-model="locationError"
+            v-model="showError"
         >
             <q-card>
                 <q-card-section>
                     <div class="text-h6">Whoops</div>
                 </q-card-section>
 
-                <q-card-section>
+                <q-card-section v-text="errorMessage">
                     Looks like your browser doesn't support this feature
                 </q-card-section>
 
@@ -79,13 +83,33 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
+    import { googleMaps } from '../common/google-maps';
+
+    import states from '../common/states';
 
     export default {
+        google: null,
+        created() {
+        },
         data: () => ({
-            locationError: false,
+            showError: false,
+            errorMessage: '',
+            options: states.map(state => ({ label: state.name, value: state.abbreviation })),
         }),
         computed: {
             ...mapState(['addressLine1', 'addressLine2', 'city', 'state', 'zipCode']),
+            fullAddress() {
+                let address = this.addressLine1;
+
+                if(this.addressLine2 !== '') {
+                    address = `${address} ${this.addressLine2}`;
+                }
+
+                address = `${address} ${this.city} ${this.state} ${this.zipCode}`;
+
+
+                return address;
+            }
         },
         methods: {
             ...mapMutations([
@@ -96,20 +120,72 @@
                 'updateZipCode',
                 'updateCoordinates',
             ]),
+            displayError(message) {
+                this.errorMessage = message;
+                this.showError = true;
+            },
             getLocation() {
-                if ('geolocation' in navigator) {
-                    navigator.geolocation.getCurrentPosition(({ coords }) => {
-                        this.updateCoordinates({
-                            latitude: coords.latitude,
-                            longitude: coords.longitude,
-                        });
+                if (!'geolocation' in navigator) {
+                    this.displayError('Your device does not support this feature');
+                    return;
+                }
 
+                this.$q.loading.show({
+                    message: 'Getting current location',
+                });
+
+                navigator.geolocation.getCurrentPosition(({ coords }) => {
+                    this.updateCoordinates({
+                        latitude: coords.latitude,
+                        longitude: coords.longitude,
                     });
 
-                } else {
-                    this.locationError = true;
-                }
+                    this.updateAddressLine1('');
+                    this.updateAddressLine2('');
+                    this.updateCity('');
+                    this.updateState('');
+                    this.updateZipCode('');
+
+                    this.$q.loading.hide();
+
+                    this.navigate();
+                });
             },
+            async setAddress() {
+                this.$q.loading.show({
+                    message: 'Saving address'
+                });
+
+                const google = await googleMaps();
+
+                if(google == null) {
+                    this.displayError('Error saving address');
+                    return;
+                }
+
+                const geocoder = new google.maps.Geocoder();
+
+                geocoder.geocode({ address: this.fullAddress }, (results, status) => {
+                    if(status !== 'OK') {
+                        this.displayError(`This doesn't look like a valid address`);
+                        return;
+                    }
+
+                    const coordinates = results[0].geometry.location;
+
+                    this.updateCoordinates({
+                        latitude: coordinates.lat(),
+                        longitude: coordinates.lng(),
+                    });
+
+                    this.$q.loading.hide();
+
+                    this.navigate();
+                });
+            },
+            navigate() {
+                this.$router.push('/app/jobs');
+            }
         },
     };
 </script>
