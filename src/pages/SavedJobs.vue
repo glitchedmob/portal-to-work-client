@@ -1,15 +1,15 @@
 <template>
-    <div id="saved-jobs">
-        <h1>Saved Jobs</h1>
-        <div class="saved-jobs-page-container">
-            <div class="card-container">
-                <job-card></job-card>
-                <job-card></job-card>
-                <job-card></job-card>
+    <q-page-container padding>
+        <q-page id="saved-jobs">
+            <div class="saved-jobs-page-container">
+                <div class="card-container">
+                    <job-card></job-card>
+                    <job-card></job-card>
+                    <job-card></job-card>
+                </div>
             </div>
-        </div>
-    </div>
-
+        </q-page>
+    </q-page-container>
 </template>
 
 <script>
