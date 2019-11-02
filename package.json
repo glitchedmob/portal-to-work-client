@@ -8,7 +8,13 @@
     "author": "Levi Zitting <me@levizitting.com>",
     "private": true,
     "scripts": {
-        "test": "echo \"No test specified\" && exit 0"
+        "dev": "quasar dev",
+        "dev:android": "quasar dev --mode cordova --target android",
+        "dev:ios": "quasar dev --mode cordova --target ios",
+        "build": "quasar build",
+        "build:android": "quasar build --mode cordova --target android",
+        "build:ios": "quasar build --mode cordova --target ios",
+        "build:pwa": "quasar build -m pwa"
     },
     "dependencies": {
         "@quasar/extras": "^1.0.0",
