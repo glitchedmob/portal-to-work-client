@@ -19,15 +19,15 @@ const routes = [
                 component: () => import('pages/JobsFilter.vue'),
                 meta: {
                     title: "Job Search Settings",
-                    back: "/jobs"
+                    back: "/app/jobs"
                 }
             },
             {
-                path: 'jobs/detail',
+                path: 'jobs/:id',
                 component: () => import('pages/JobDetail.vue'),
                 meta: {
-                    title: "Job Detail",
-                    back: "/jobs"
+                    title: "Job Details",
+                    back: "/app/jobs"
                 }
             },
             {

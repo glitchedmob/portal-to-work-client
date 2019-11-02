@@ -7,7 +7,7 @@
                 color="primary"
                 size="md"
                 name="arrow_back"
-                :v-go-back="back"
+                @click="goBack"
             />
         </div>
         <div class="col q-mr-xl text-center">
@@ -20,6 +20,11 @@
     export default {
         name: "TitleBarBackButton.vue",
         props: ['title', 'back'],
+        methods: {
+            goBack() {
+                this.$router.push(this.back);
+            }
+        }
     }
 </script>
 

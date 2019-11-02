@@ -17,7 +17,18 @@
                         </div>
                     </ais-search-box>
                     <ais-hits>
-                        <job-card slot-scope="{ item }"></job-card>
+                        <template slot-scope="{ items }">
+                            <job-card
+                                v-for="item in items"
+                                :key="item.objectID"
+                                :id="item.objectID"
+                                :title="item.title"
+                                :sub-title="item.employer.name"
+                                main-icon="favorite"
+                                walking-distance="5 min"
+                                busing-distance="10 min"
+                            />
+                        </template>
                     </ais-hits>
                 </ais-instant-search>
             </div>
@@ -28,7 +39,7 @@
 <script>
     import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch';
     import algoliasearch from 'algoliasearch/lite';
-    import JobCard from "../components/JobCard";
+    import JobCard from '../components/JobCard';
 
     export default {
         components: {
@@ -46,9 +57,9 @@
         methods: {
             test(args) {
                 console.log(args);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss">
@@ -60,6 +71,7 @@
             margin: 20px;
         }
     }
+
     .listing-page-container {
         margin: 0 auto;
         width: 75%;
@@ -71,9 +83,11 @@
             width: 95%
         }
     }
+
     .search-bar {
         width: 100%;
     }
+
     .card-container {
         width: 100%;
     }
