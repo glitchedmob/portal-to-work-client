@@ -1,31 +1,28 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-
-    <q-header elevated>
-      <q-toolbar>
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
-
-    <q-page-container>
-      <router-view />
-        <navigation />
-    </q-page-container>
-
-  </q-layout>
+    <q-layout view="lHh Lpr lFf">
+        <title-bar :title="title" :back="back"/>
+        <router-view />
+        <tab-navigation/>
+    </q-layout>
 </template>
 
 <script>
-    import Navigation from "../components/Navigation";
+    import TabNavigation from "../components/TabNavigation";
+    import TitleBar from '../components/TitleBar'
 
-export default {
-  name: 'MyLayout',
-    components: {Navigation},
-    data () {
-    return {
+    export default {
+        name: 'MyLayout',
+        components: {
+            TabNavigation,
+            TitleBar,
+        },
+        computed: {
+            title() {
+                return this.$route.meta.title;
+            },
+            back() {
+                return this.$route.meta.back;
+            },
+        },
     }
-  }
-}
 </script>
