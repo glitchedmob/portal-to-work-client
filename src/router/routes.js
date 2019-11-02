@@ -59,14 +59,20 @@ const routes = [
                     back: "/events"
                 }
             },
+            // {
+            //     path: 'settings',
+            //     component: () => import('pages/Settings.vue'),
+            //     meta: {
+            //         title: "Settings"
+            //     }
+            // },
             {
-                path: 'settings',
-                component: () => import('pages/Settings.vue'),
+                path: 'settings/location',
+                component: () => import('pages/AddressForm.vue'),
                 meta: {
-                    title: "Settings"
+                    title: "Settings",
                 }
             },
-
         ],
     },
 ];
