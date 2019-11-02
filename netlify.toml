@@ -1,0 +1,9 @@
+[build]
+  publish = "dist/spa/"
+  command = "npm run dev"
+
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    Service-Worker-Allowed = "/"
