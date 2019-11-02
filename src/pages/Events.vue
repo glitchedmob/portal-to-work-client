@@ -4,11 +4,36 @@
           class="flex flex-center event-page">
       <div class="events-page-container">
           <div class="card-container">
-              <event-card></event-card>
-              <event-card></event-card>
-              <event-card></event-card>
-              <event-card></event-card>
-              <event-card></event-card>
+              <event-card
+              title="Pizza Social"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+              month="Nov"
+              day="4"
+          />
+          <event-card
+              title="Pizza Social"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+              month="Nov"
+              day="4"
+          />
+          <event-card
+              title="Pizza Social"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+              month="Nov"
+              day="4"
+          />
+          <event-card
+              title="Pizza Social"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+              month="Nov"
+              day="4"
+          />
+          <event-card
+              title="Pizza Social"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+              month="Nov"
+              day="4"
+          />
           </div>
       </div>
   </q-page>

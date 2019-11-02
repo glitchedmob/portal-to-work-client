@@ -1,5 +1,5 @@
 <template>
-    <q-card flat square class="listing-card q-py-sm">
+    <q-card flat square id="listing-card" class="q-py-sm">
         <q-item clickable>
             <q-item-section avatar v-if="mainIcon">
                 <q-icon :name="mainIcon" size="lg" class="icon"></q-icon>
@@ -50,7 +50,7 @@
 </script>
 
 <style scoped lang="scss">
-    .listing-card {
+    #listing-card {
         margin: 15px 0;
         background-color: lighten($primary, 50%);
     }
@@ -63,10 +63,6 @@
     .card-subtitle {
         color: $primary;
         font-size: 1.2em;
-
-        @media (max-width: 500px) {
-            font-size: 1em;
-        }
     }
 
 
