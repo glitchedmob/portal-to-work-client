@@ -1,5 +1,5 @@
 <template>
-    <q-layout class="row q-pt-md">
+    <div class="row q-pt-md">
         <div class="col-2">
             <q-icon
                 v-if="back != null"
@@ -11,9 +11,9 @@
             />
         </div>
         <div class="col q-mr-xl text-center">
-            <p class="text-h5 text-uppercase text-weight-medium">{{ title }}</p>
+            <p class="text-h6 text-uppercase text-weight-medium">{{ title }}</p>
         </div>
-    </q-layout>
+    </div>
 </template>
 
 <script>

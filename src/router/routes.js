@@ -19,7 +19,7 @@ const routes = [
                 component: () => import('pages/JobsFilter.vue'),
                 meta: {
                     title: "Job Search Settings",
-                    back: "jobs"
+                    back: "/jobs"
                 }
             },
             {
@@ -27,7 +27,7 @@ const routes = [
                 component: () => import('pages/JobDetail.vue'),
                 meta: {
                     title: "Job Detail",
-                    back: "jobs"
+                    back: "/jobs"
                 }
             },
             {
@@ -56,7 +56,7 @@ const routes = [
                 component: () => import('pages/EventDetail.vue'),
                 meta: {
                     title: "Event Details",
-                    back: "events"
+                    back: "/events"
                 }
             },
             {

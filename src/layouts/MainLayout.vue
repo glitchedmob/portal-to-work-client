@@ -1,15 +1,8 @@
 <template>
     <q-layout view="lHh Lpr lFf">
-
-<!--        <q-header elevated>-->
-            <title-bar :title="title" :back="back"/>
-<!--        </q-header>-->
-
-        <q-page-container>
-            <router-view />
-            <tab-navigation/>
-        </q-page-container>
-
+        <title-bar :title="title" :back="back"/>
+        <router-view />
+        <tab-navigation/>
     </q-layout>
 </template>
 
