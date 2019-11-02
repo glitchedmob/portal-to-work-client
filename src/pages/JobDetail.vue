@@ -30,8 +30,5 @@
 </script>
 
 <style scoped lang="scss">
-    .col p {
-        font-size: 20px;
-    }
 
 </style>
