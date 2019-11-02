@@ -1,7 +1,7 @@
 <template>
     <div>
         <q-layout>
-            <q-page-container class="row q-pt-md">
+            <q-page-container class="row q-py-md">
                 <div class="col-2">
                     <q-icon
                         class="q-pl-lg"
@@ -15,7 +15,7 @@
                 </div>
             </q-page-container>
             <q-page-container>
-                <q-page class="q-pa-lg">
+                <q-page class="q-px-md">
                     <div class="row">
                         <div class="col">
                             <p class="text-h5 q-pa-none">Patient Transporter</p>
@@ -29,20 +29,21 @@
                             />
                         </div>
                     </div>
-
                     <p class="text-subtitle1">Mercy health</p>
                     <p>Qualified candidates may be considered for any
                         open position within Patient Transportation. The
                         Patient Transporter will transport patient to and from
                         the Radiology department as assigned. Keep the
                         patient’s wheelchairs and carts clean and neat.</p>
-                    <q-btn
-                        outline
-                        rounded
-                        label="More"
-                        color="primary"
-                        class="q-px-lg q-py-sm"
-                    />
+                    <div class="column items-center">
+                        <q-btn
+                            outline
+                            rounded
+                            label="More"
+                            color="primary"
+                            class="q-px-lg q-py-sm"
+                        />
+                    </div>
                 </q-page>
 
             </q-page-container>
