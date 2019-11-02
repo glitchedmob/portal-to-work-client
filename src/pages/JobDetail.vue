@@ -30,7 +30,7 @@
                 </q-item>
 
                 <q-item class="">
-                    <q-item-label>Salary</q-item-label>
+                    <q-item-label>Requirements</q-item-label>
                     <q-space/>
                     <q-item-label>{{ educationRequirements }}</q-item-label>
                 </q-item>
