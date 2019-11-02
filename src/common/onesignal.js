@@ -14,13 +14,15 @@ export async function setup() {
 
     const OneSignal = await loadOneSignal();
 
+    console.log(OneSignal);
+
     OneSignal.init({
         appId: process.env.ONESIGNAL_APP_ID,
     });
 
     const userId = await OneSignal.getUserId();
 
-    console.log(userId);
+    console.log(`userId: ${userId}`);
 }
 
 function loadOneSignal() {
