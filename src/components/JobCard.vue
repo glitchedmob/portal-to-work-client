@@ -5,8 +5,8 @@
                 <q-icon name="favorite"></q-icon>
             </q-item-section>
             <q-item-section class="card-text">
-                <q-item-label class="card-title">Job Title</q-item-label>
-                <q-item-label caption class="card-employer">Employer</q-item-label>
+                <q-item-label class="card-title">Delivery Driver</q-item-label>
+                <q-item-label caption class="card-employer">Working Man Ltd.</q-item-label>
             </q-item-section>
             <q-item-section class="card-icons">
                 <div class="icon">
