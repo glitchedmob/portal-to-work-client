@@ -16,10 +16,6 @@ export async function setup() {
 
     console.log(OneSignal);
 
-    OneSignal.init({
-        appId: process.env.ONESIGNAL_APP_ID,
-    });
-
     const userId = await OneSignal.getUserId();
 
     console.log(`userId: ${userId}`);
@@ -30,6 +26,9 @@ function loadOneSignal() {
         const OneSignal = window.OneSignal || [];
 
         OneSignal.push(() => {
+            OneSignal.init({
+                appId: process.env.ONESIGNAL_APP_ID,
+            });
             resolve(OneSignal);
         });
     });
