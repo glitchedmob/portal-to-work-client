@@ -11,18 +11,20 @@
 
     <q-page-container>
       <router-view />
+        <navigation />
     </q-page-container>
 
   </q-layout>
 </template>
 
 <script>
+    import Navigation from "../components/Navigation";
+
 export default {
   name: 'MyLayout',
-
-  data () {
+    components: {Navigation},
+    data () {
     return {
-      leftDrawerOpen: false
     }
   }
 }
