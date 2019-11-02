@@ -33,11 +33,14 @@
                             @input="updateCity"
                             label="City"
                         />
-                        <q-input
+                        <q-select
                             outlined
                             :value="state"
                             @input="updateState"
-                            label="state"
+                            label="State"
+                            :options="options"
+                            emit-value
+                            map-options
                         />
                         <q-input
                             outlined
@@ -82,6 +85,8 @@
     import { mapState, mapMutations } from 'vuex';
     import { googleMaps } from '../common/google-maps';
 
+    import states from '../common/states';
+
     export default {
         google: null,
         created() {
@@ -92,6 +97,7 @@
         data: () => ({
             showError: false,
             errorMessage: '',
+            options: states.map(state => ({ label: state.name, value: state.abbreviation })),
         }),
         computed: {
             ...mapState(['addressLine1', 'addressLine2', 'city', 'state', 'zipCode']),
