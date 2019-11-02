@@ -13,7 +13,8 @@ const routes = [
             { path: 'saved-jobs', component: () => import('pages/SavedJobs.vue') },
             { path: 'events', component: () => import('pages/Events.vue') },
             { path: 'events/detail', component: () => import('pages/EventDetail.vue') },
-            { path: 'settings', component: () => import('pages/Settings.vue') },
+            // { path: 'settings', component: () => import('pages/Settings.vue') },
+            { path: 'settings/location', component: () => import('pages/AddressForm.vue')}
 
         ],
     },

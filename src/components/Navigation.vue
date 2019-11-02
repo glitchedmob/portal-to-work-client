@@ -6,7 +6,7 @@
 <!--        <q-route-tab exact name="location" icon="explore" to="/"/>-->
         <q-route-tab exact name="saved-jobs" icon="favorite" to="/app/saved-jobs"/>
         <q-route-tab exact name="events" icon="calendar_today" to="/app/events"/>
-        <q-route-tab exact name="settings" icon="menu" to="/app/settings"/>
+        <q-route-tab exact name="settings" icon="menu" to="/app/settings/location"/>
     </q-tabs>
 </template>
 
