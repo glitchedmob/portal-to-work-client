@@ -133,6 +133,12 @@
                         longitude: coords.longitude,
                     });
 
+                    this.updateAddressLine1('');
+                    this.updateAddressLine2('');
+                    this.updateCity('');
+                    this.updateState('');
+                    this.updateZipCode('');
+
                     this.navigate();
                 });
             },
