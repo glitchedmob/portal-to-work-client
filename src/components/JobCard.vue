@@ -1,6 +1,6 @@
 <template>
-    <q-card flat square id="listing-card" class="q-py-sm">
-        <q-item clickable>
+    <q-card flat square class="listing-card q-py-sm">
+        <q-item clickable @click="navigateToDetail">
             <q-item-section avatar v-if="mainIcon">
                 <q-icon :name="mainIcon" size="lg" class="icon"></q-icon>
             </q-item-section>
@@ -35,6 +35,7 @@
 <script>
     export default {
         props: {
+            id: String,
             mainIcon: String,
             title: String,
             subTitle: String,
@@ -44,13 +45,17 @@
             bikingDistance: String,
             busingDistance: String,
             drivingDistance: String,
-
+        },
+        methods: {
+            navigateToDetail() {
+                this.$router.push(`/app/jobs/${this.id}`);
+            }
         }
     }
 </script>
 
 <style scoped lang="scss">
-    #listing-card {
+    .listing-card {
         margin: 15px 0;
         background-color: lighten($primary, 50%);
     }

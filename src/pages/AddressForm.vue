@@ -153,12 +153,13 @@
             },
             async setAddress() {
                 this.$q.loading.show({
-                    message: 'Saving address'
+                    message: 'Saving address',
                 });
 
                 const google = await googleMaps();
 
                 if(google == null) {
+                    this.$q.loading.hide();
                     this.displayError('Error saving address');
                     return;
                 }
@@ -167,6 +168,7 @@
 
                 geocoder.geocode({ address: this.fullAddress }, (results, status) => {
                     if(status !== 'OK') {
+                        this.$q.loading.hide();
                         this.displayError(`This doesn't look like a valid address`);
                         return;
                     }
