@@ -2,7 +2,7 @@
     "name": "portal-to-work",
     "version": "0.0.1",
     "description": "An app for finding jobs near you",
-    "productName": "Portal to WOrk",
+    "productName": "Portal to Work",
     "cordovaId": "com.mojobs.portaltowork",
     "capacitorId": "",
     "author": "Levi Zitting <me@levizitting.com>",
