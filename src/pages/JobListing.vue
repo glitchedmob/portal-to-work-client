@@ -2,7 +2,8 @@
     <q-page-container>
         <q-page id="listing-page">
             <div class="listing-page-container">
-                <ais-instant-search :search-client="searchClient" index-name="jobs">
+                <ais-instant-search :search-client="searchClient" index-name="jobs" >
+                    <ais-configure v-bind="searchParameters" />
                     <ais-search-box>
                         <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
                             <div class="search-and-button">
@@ -35,8 +36,6 @@
                                 :title="item.title"
                                 :sub-title="item.employer.name"
                                 main-icon="favorite"
-                                walking-distance="5 min"
-                                busing-distance="10 min"
                             />
                         </template>
                     </ais-hits>
@@ -47,7 +46,8 @@
 </template>
 
 <script>
-    import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch';
+    import { mapState } from 'vuex';
+    import { AisInstantSearch, AisSearchBox, AisHits, AisConfigure } from 'vue-instantsearch';
     import algoliasearch from 'algoliasearch/lite';
     import JobCard from '../components/JobCard';
 
@@ -57,6 +57,7 @@
             AisInstantSearch,
             AisSearchBox,
             AisHits,
+            AisConfigure,
         },
         data: () => ({
             searchClient: algoliasearch(
@@ -64,6 +65,14 @@
                 process.env.ALGOLIA_SEARCH_KEY,
             ),
         }),
+        computed: {
+            ...mapState(['coordinates']),
+            searchParameters() {
+                return {
+                    aroundLatLng: `${this.coordinates.latitude}, ${this.coordinates.longitude}`
+                }
+            }
+        },
         methods: {
             test(args) {
                 console.log(args);
