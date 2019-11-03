@@ -1,16 +1,16 @@
 <template>
     <div class="row q-pt-md">
-        <div class="col-2">
+        <div>
             <q-icon
                 v-if="back != null"
-                class="q-ml-md"
+                class="q-ml-md col-2"
                 color="primary"
                 size="md"
                 name="arrow_back"
                 @click="goBack"
             />
         </div>
-        <div class="col q-mr-xl text-center">
+        <div class="col text-center">
             <p class="text-h6 text-uppercase text-weight-medium">{{ title }}</p>
         </div>
     </div>

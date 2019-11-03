@@ -1,8 +1,12 @@
 <template>
     <q-page-container>
-        <q-page class="q-px-md" v-if="job">
+        <q-page class="q-px-md q-mt-lg job-page" v-if="job">
             <p class="text-h5 text-weight-medium">{{ job.title }}</p>
-            <p class="text-subtitle1">{{ job.employer.name }}</p>
+            <div class="row">
+                <p class="text-subtitle1">{{ job.employer.name }}</p>
+                <q-space />
+                <q-btn round flat class="text-primary q-pb-md" icon="favorite_border" />
+            </div>
 
             <q-list bordered class="rounded-borders text-primary">
                 <q-expansion-item
@@ -47,38 +51,44 @@
             />
 
             <google-map v-if="locations.length" :pins="locations"/>
-            
+
             <div class="row q-py-md">
-                <q-icon
-                    class="col"
-                    name="directions_walk"
-                    color="primary"
-                    size="26px"
-                />
-                <q-icon
-                    class="col"
-                    name="directions_bike"
-                    color="primary"
-                    size="26px"
-                />
-                <q-icon
-                    class="col"
-                    name="directions_bus"
-                    color="primary"
-                    size="26px"
-                />
-                <q-icon
-                    class="col"
-                    name="directions_car"
-                    color="primary"
-                    size="26px"
-                />
-            </div>
-            <div class="row q-px-lg">
-                <p class="col">{{ drivingTime }}</p>
-                <p class="col">{{ walkingTime }}</p>
-                <p class="col">{{ transitTime }}</p>
-                <p class="col">{{ bikingTime }}</p>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_walk"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ drivingTime }}</p>
+                </div>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_bike"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ walkingTime }}</p>
+                </div>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_bus"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ transitTime }}</p>
+                </div>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_car"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ bikingTime }}</p>
+                </div>
             </div>
 
             <q-card flat class="address-section text-primary">
@@ -212,13 +222,18 @@
             }).catch((err) => {
                 console.log(err);
                 this.$q.loading.hide();
-                // this.$router.push('/404');
+                this.$router.push('/404');
             });
         },
     };
 </script>
 
 <style scoped lang="scss">
+    .job-page {
+        margin: 0 auto;
+        max-width: 600px;
+    }
+
     .col p {
         font-size: 20px;
     }
@@ -231,9 +246,16 @@
     .address-section {
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     .map {
         height: 200px;
+    }
+
+    .icon-set {
+        flex-direction: column;
+        text-align: center;
+        flex-grow: 1;
     }
 </style>
