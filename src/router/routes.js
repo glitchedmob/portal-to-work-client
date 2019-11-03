@@ -56,7 +56,7 @@ const routes = [
                 component: () => import('pages/EventDetail.vue'),
                 meta: {
                     title: "Event Details",
-                    back: "/events"
+                    back: "/app/events"
                 }
             },
             // {

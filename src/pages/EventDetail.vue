@@ -1,11 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
-    <h1>Event detail</h1>
-  </q-page>
+    <h1>detail vue</h1>
 </template>
 
 <script>
-    export default {
-        name: 'PageIndex'
-    }
 </script>
