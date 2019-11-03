@@ -82,7 +82,7 @@
 </template>
 
 <script>
-    import { mapState, mapMutations } from 'vuex';
+    import { mapState, mapMutations, mapActions } from 'vuex';
     import { googleMaps } from '../common/google-maps';
 
     import states from '../common/states';
@@ -117,9 +117,9 @@
                 'updateAddressLine2',
                 'updateCity',
                 'updateState',
-                'updateZipCode',
-                'updateCoordinates',
+                'updateZipCode',,
             ]),
+            ...mapActions(['register']),
             displayError(message) {
                 this.errorMessage = message;
                 this.showError = true;
@@ -135,7 +135,7 @@
                 });
 
                 navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    this.updateCoordinates({
+                    this.register({
                         latitude: coords.latitude,
                         longitude: coords.longitude,
                     });
@@ -175,7 +175,7 @@
 
                     const coordinates = results[0].geometry.location;
 
-                    this.updateCoordinates({
+                    this.register({
                         latitude: coordinates.lat(),
                         longitude: coordinates.lng(),
                     });
