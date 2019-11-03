@@ -2,7 +2,7 @@
     <q-layout>
         <q-page-container>
             <q-page padding>
-                <q-form class="text-primary">
+                <q-form class="text-primary job-form">
                     <q-item>
                         <q-item-section>
                             <q-item-label>Only Jobs Near Me</q-item-label>
@@ -82,5 +82,10 @@
         font-size: 1.25em;
         padding: 5px 0px 0px 0px;
         color: $primary;
+    }
+
+    .job-form {
+        margin: 0 auto;
+        max-width: 600px;
     }
 </style>
