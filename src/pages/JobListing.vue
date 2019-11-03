@@ -101,7 +101,7 @@
                 return items
                     .map((item, index) => item.locations.data
                         .map(location => ({
-                            label: index,
+                            label: index + 1,
                             value: item.objectID,
                             lat: location.lat,
                             lng: location.lng

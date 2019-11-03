@@ -4,9 +4,11 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import { googleMaps } from '../common/google-maps';
 
-    import * as blueCircle from '../assets/dot.png';
+    import * as defaultIcon from '../assets/dark-dot.png';
+    import * as userIcon from '../assets/light-home.png';
     import googleMapsStyle from '../common/google-map-style';
 
     export default {
@@ -15,8 +17,13 @@
         map: null,
         icon: null,
         markers: [],
+        userMarker: null,
+        userIcon: null,
         data() {
             return {};
+        },
+        computed: {
+            ...mapState(['coordinates']),
         },
         props: {
             pins: {
@@ -40,7 +47,14 @@
                 });
 
                 this.$options.icon = {
-                    url: blueCircle,
+                    url: defaultIcon,
+                    size: new google.maps.Size(30, 30),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(0, 0),
+                };
+
+                this.$options.userIcon = {
+                    url: userIcon,
                     size: new google.maps.Size(30, 30),
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(0, 0),
@@ -56,6 +70,11 @@
                     marker = null;
                 });
 
+                if (this.$options.userMarker) {
+                    this.$options.userMarker.setMap(null);
+                    this.$options.userMarker = null;
+                }
+
                 const bounds = new google.maps.LatLngBounds();
 
                 this.$options.markers = this.pins.map(pin => {
@@ -67,21 +86,34 @@
                         },
                         icon: this.$options.icon,
                         label: {
-                            text: `${pin.label}`,
+                            text: pin.label ? `${pin.label}` : ' ',
                             color: 'white',
                             fontWeight: 'bold',
                         },
                         map,
                     });
 
-                    marker.addListener('click', () => {
-                        this.$emit('select', pin.value);
-                    });
+                    if(pin.value) {
+                        marker.addListener('click', () => {
+                            this.$emit('select', pin.value);
+                        });
+                    }
 
                     bounds.extend(marker.getPosition());
 
                     return marker;
                 });
+
+                this.$options.userMarker = new google.maps.Marker({
+                    position: {
+                        lat: this.coordinates.latitude,
+                        lng: this.coordinates.longitude,
+                    },
+                    icon: this.$options.userIcon,
+                    map,
+                });
+
+                bounds.extend(this.$options.userMarker.getPosition());
 
                 map.fitBounds(bounds);
             },
@@ -90,6 +122,9 @@
             pins() {
                 this.drawPins();
             },
+            coordinates() {
+                this.drawPins();
+            }
         },
     };
 </script>
