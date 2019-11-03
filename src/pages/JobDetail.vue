@@ -97,7 +97,7 @@
                         unelevated
                         rounded
                         class="q-px-xl q-py-sm"
-                        size="md"
+                        size="lg"
                         color="primary"
                         label="Map"
                         type="a"
