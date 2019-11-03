@@ -50,24 +50,28 @@
 
             <div class="row q-py-md">
                 <q-icon
+                    v-if="walkingTime"
                     class="col"
                     name="directions_walk"
                     color="primary"
                     size="26px"
                 />
                 <q-icon
+                    v-if="bikingTime"
                     class="col"
                     name="directions_bike"
                     color="primary"
                     size="26px"
                 />
                 <q-icon
+                    v-if="transitTime"
                     class="col"
                     name="directions_bus"
                     color="primary"
                     size="26px"
                 />
                 <q-icon
+                    v-if="drivingTime"
                     class="col"
                     name="directions_car"
                     color="primary"
@@ -75,10 +79,10 @@
                 />
             </div>
             <div class="row q-px-lg">
-                <p class="col">{{ drivingTime }}</p>
-                <p class="col">{{ walkingTime }}</p>
-                <p class="col">{{ transitTime }}</p>
-                <p class="col">{{ bikingTime }}</p>
+                <p v-if="walkingTime" class="col">{{ walkingTime }}</p>
+                <p v-if="bikingTime" class="col">{{ bikingTime }}</p>
+                <p v-if="transitTime"class="col">{{ transitTime }}</p>
+                <p v-if="drivingTime" class="col">{{ drivingTime }}</p>
             </div>
 
             <q-card flat class="address-section text-primary">
@@ -108,10 +112,10 @@
 
 <script>
 
-    import { jobsApi } from '../common/http';
+    import {jobsApi} from '../common/http';
     import GoogleMap from "../components/GoogleMap";
-    import { mapState }  from 'vuex';
-    import { googleMaps } from "../common/google-maps";
+    import {mapState} from 'vuex';
+    import {googleMaps} from "../common/google-maps";
     import jobTypes from '../common/job-types';
     import educationLevels from '../common/education-levels';
 
@@ -159,8 +163,8 @@
                 } else {
                     next = encodeURIComponent(this.job.locations.data[0].street + " ") +
                         encodeURIComponent(this.job.locations.data[0].city) + "," +
-                            encodeURIComponent(" " + this.job.locations.data[0].state + " ") +
-                                encodeURIComponent(this.job.locations.data[0].zipcode);
+                        encodeURIComponent(" " + this.job.locations.data[0].state + " ") +
+                        encodeURIComponent(this.job.locations.data[0].zipcode);
                 }
                 return base + next;
             },
@@ -168,7 +172,7 @@
         methods: {
 
             async getTravelTimeFor(mode, dataName) {
-                if(!this.locations) return;
+                if (!this.locations) return;
                 const google = await googleMaps();
 
                 let directionsService = new google.maps.DirectionsService();
@@ -209,6 +213,7 @@
                 this.getTravelTimeFor('TRANSIT', 'transitTime');
                 this.getTravelTimeFor('WALKING', 'walkingTime');
                 this.$q.loading.hide();
+                console.log(this.job)
             }).catch((err) => {
                 console.log(err);
                 this.$q.loading.hide();
