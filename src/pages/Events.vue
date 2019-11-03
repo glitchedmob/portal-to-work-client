@@ -1,49 +1,48 @@
 <template>
-  <q-page q-py-md
-          q-px-lg
-          class="flex flex-center event-page">
-      <div class="events-page-container">
-          <div class="card-container">
-              <event-card
-              title="Pizza Social"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              month="Nov"
-              day="4"
-          />
-          <event-card
-              title="Pizza Social"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              month="Nov"
-              day="4"
-          />
-          <event-card
-              title="Pizza Social"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              month="Nov"
-              day="4"
-          />
-          <event-card
-              title="Pizza Social"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              month="Nov"
-              day="4"
-          />
-          <event-card
-              title="Pizza Social"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              month="Nov"
-              day="4"
-          />
-          </div>
-      </div>
-  </q-page>
+    <q-page-container>
+          <q-page q-py-md
+                  q-px-lg
+                  class="flex flex-center event-page">
+              <div class="events-page-container">
+                  <div class="card-container">
+                      <event-card
+                          v-for="card in events"
+                          :id="card.id"
+                          :key="card.id"
+                          :title="card.title"
+                          :description="card.description"
+                          month="Nov"
+                          day="4"
+                      />
+                  </div>
+              </div>
+          </q-page>
+    </q-page-container>
 </template>
 
 <script>
     import EventCard from "../components/EventCard"
+    import http from '../common/http';
+
     export default {
-        name: 'Events',
-        components: {EventCard}
+        data: () => ({
+            events: []
+        }),
+        components: {EventCard},
+        created() {
+            this.$q.loading.show({
+                message: 'Loading events info',
+            });
+
+            http.get(`${process.env.JOBS_API_URL}/event`).then(res => {
+                this.events = res.data.data;
+                this.$q.loading.hide();
+                console.log(this.events);
+            }).catch(() => {
+                this.$q.loading.hide();
+                this.$router.push('/404');
+            });
+        },
     }
 </script>
 

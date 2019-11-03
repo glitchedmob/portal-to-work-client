@@ -52,11 +52,11 @@ const routes = [
                 }
             },
             {
-                path: 'events/detail',
+                path: 'events/:id',
                 component: () => import('pages/EventDetail.vue'),
                 meta: {
                     title: "Event Details",
-                    back: "/events"
+                    back: "/app/events"
                 }
             },
             // {
