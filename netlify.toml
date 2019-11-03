@@ -3,7 +3,6 @@
   command = "npm run dev"
 
 [[headers]]
-  for = "/*"
-
+  for = "/"
   [headers.values]
     Service-Worker-Allowed = "/"
