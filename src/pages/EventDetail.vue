@@ -42,17 +42,18 @@
 
             <google-map v-if="location" :pins="location" class="map"/>
 
-            <q-card flat class="address-section text-primary">
-                <q-card-section>
+            <q-card flat class="row address-section text-primary">
+                <q-card-section class="col">
                     <q-btn
                         unelevated
                         rounded
+                        class="q-px-xl q-py-sm"
                         size="lg"
                         color="primary"
                         label="Map"
                     />
                 </q-card-section>
-                <q-card-section class="q-py-none text-left">
+                <q-card-section class="col q-py-none text-left">
                     <q-item-label>{{ event.location.street }}</q-item-label>
                     <q-item-label caption>{{ event.location.city }}, {{ event.location.state }} {{ event.location.zipcode }}</q-item-label>
                 </q-card-section>
