@@ -10,24 +10,6 @@
             </q-item-section>
             <q-item-section avatar>
                 <p class="q-ma-none">{{ timeAgo }}</p>
-<!--                <div class="row justify-end items-center q-col-gutter-md">-->
-<!--                    <div class="icon" v-if="walkingDistance">-->
-<!--                        <q-icon name="directions_walk" size="sm"></q-icon>-->
-<!--                        <p>{{ walkingDistance }}</p>-->
-<!--                    </div>-->
-<!--                    <div class="icon" v-if="busingDistance">-->
-<!--                        <q-icon name="directions_bus" size="sm"></q-icon>-->
-<!--                        <p>{{ busingDistance }}</p>-->
-<!--                    </div>-->
-<!--                    <div class="icon" v-if="bikingDistance">-->
-<!--                        <q-icon name="directions_bike" size="sm"></q-icon>-->
-<!--                        <p>{{ bikingDistance }}</p>-->
-<!--                    </div>-->
-<!--                    <div class="icon" v-if="drivingDistance">-->
-<!--                        <q-icon name="directions_car" size="sm"></q-icon>-->
-<!--                        <p>{{ drivingDistance }}</p>-->
-<!--                    </div>-->
-<!--                </div>-->
             </q-item-section>
         </q-item>
     </q-card>
