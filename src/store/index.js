@@ -19,6 +19,7 @@ export default function (/* { ssrContext } */) {
                 longitude: '',
             },
             nearby: true,
+            sortByDate: false,
             radius: '',
             educationLevel: 'all',
             jobType: 'all',
@@ -58,6 +59,9 @@ export default function (/* { ssrContext } */) {
             },
             updateNearby(state, value) {
                 state.nearby = value;
+            },
+            updateSortByDate(state, value) {
+                state.sortByDate = value;
             },
             updateRadius(state, value) {
                 state.radius = value;

@@ -9,30 +9,15 @@
                 <q-item-label caption class="card-subtitle">{{ subTitle }}</q-item-label>
             </q-item-section>
             <q-item-section avatar>
-                <div class="row justify-end items-center q-col-gutter-md">
-                    <div class="icon" v-if="walkingDistance">
-                        <q-icon name="directions_walk" size="sm"></q-icon>
-                        <p>{{ walkingDistance }}</p>
-                    </div>
-                    <div class="icon" v-if="busingDistance">
-                        <q-icon name="directions_bus" size="sm"></q-icon>
-                        <p>{{ busingDistance }}</p>
-                    </div>
-                    <div class="icon" v-if="bikingDistance">
-                        <q-icon name="directions_bike" size="sm"></q-icon>
-                        <p>{{ bikingDistance }}</p>
-                    </div>
-                    <div class="icon" v-if="drivingDistance">
-                        <q-icon name="directions_car" size="sm"></q-icon>
-                        <p>{{ drivingDistance }}</p>
-                    </div>
-                </div>
+                <p class="q-ma-none">{{ timeAgo }}</p>
             </q-item-section>
         </q-item>
     </q-card>
 </template>
 
 <script>
+    import { format } from 'timeago.js';
+
     export default {
         props: {
             id: String,
@@ -45,13 +30,19 @@
             bikingDistance: String,
             busingDistance: String,
             drivingDistance: String,
+            time: String,
         },
         methods: {
             navigateToDetail() {
                 this.$router.push(`/app/jobs/${this.id}`);
-            }
-        }
-    }
+            },
+        },
+        computed: {
+            timeAgo() {
+                return format(this.time);
+            },
+        },
+    };
 </script>
 
 <style scoped lang="scss">
@@ -73,6 +64,7 @@
 
     .icon {
         color: $primary;
+
         p {
             margin: 0;
         }
