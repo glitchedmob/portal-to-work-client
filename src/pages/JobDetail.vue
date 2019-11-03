@@ -46,7 +46,7 @@
                 target="_blank"
                 :href="job.url"
             />
-<!--:pins="pins"-->
+
             <google-map v-if="locations.length" :pins="locations"/>
 
             <q-card flat class="address-section text-primary">
