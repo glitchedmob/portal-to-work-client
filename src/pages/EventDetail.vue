@@ -40,7 +40,7 @@
                 </q-item>
             </q-list>
 
-            <google-map v-if="location" :pins="location"/>
+            <google-map v-if="location" :pins="location" class="map"/>
 
             <q-card flat class="address-section text-primary">
                 <q-card-section>
@@ -154,5 +154,9 @@
     .address-section {
         display: flex;
         align-items: center;
+    }
+
+    .map {
+        height: 200px;
     }
 </style>

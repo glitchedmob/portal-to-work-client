@@ -47,7 +47,7 @@
                 :href="job.url"
             />
 
-            <google-map v-if="locations.length" :pins="locations"/>
+            <google-map v-if="locations.length" :pins="locations" class="map"/>
 
             <q-card flat class="address-section text-primary">
                 <q-card-section>
@@ -140,5 +140,9 @@
     .address-section {
         display: flex;
         align-items: center;
+    }
+
+    .map {
+        height: 200px;
     }
 </style>

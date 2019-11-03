@@ -37,7 +37,7 @@
                 const { google } = this.$options;
 
                 this.$options.map = new google.maps.Map(this.$refs.map, {
-                    center: { lat: -34.397, lng: 150.644 },
+                    center: { lat: -34.397, lng: 50.644 },
                     zoom: 10,
                     disableDefaultUI: true,
                     styles: googleMapsStyle,
@@ -73,6 +73,7 @@
                 }
 
                 const bounds = new google.maps.LatLngBounds();
+
 
                 this.$options.markers = this.pins.map(pin => {
                     const marker = new google.maps.Marker({
@@ -111,7 +112,12 @@
 
                 bounds.extend(this.$options.userMarker.getPosition());
 
+                map.setCenter(bounds.getCenter());
                 map.fitBounds(bounds);
+
+                google.maps.event.addListenerOnce(map, 'bounds_changed', () => {
+                    map.setZoom(map.getZoom() - .5);
+                });
             },
         },
         watch: {
