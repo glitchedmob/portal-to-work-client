@@ -19,10 +19,12 @@ export default function (/* { ssrContext } */) {
                 longitude: '',
             },
             nearby: true,
+            sortByDate: false,
             radius: '',
             educationLevel: 'all',
             jobType: 'all',
             currentTab: 'list',
+            favoriteJobs: []
         },
         mutations: {
             initialiseStore(state) {
@@ -59,6 +61,9 @@ export default function (/* { ssrContext } */) {
             updateNearby(state, value) {
                 state.nearby = value;
             },
+            updateSortByDate(state, value) {
+                state.sortByDate = value;
+            },
             updateRadius(state, value) {
                 state.radius = value;
             },
@@ -70,6 +75,15 @@ export default function (/* { ssrContext } */) {
             },
             updateCurrentTab(state, value) {
                 state.currentTab = value;
+            },
+            addFavoriteJob(state, value) {
+                state.favoriteJobs = [
+                    value,
+                    ...state.favoriteJobs,
+                ];
+            },
+            removeFavoriteJob(state, id) {
+                state.favoriteJobs = state.favoriteJobs.filter(job => job.id !== id);
             }
         },
         getters: {},

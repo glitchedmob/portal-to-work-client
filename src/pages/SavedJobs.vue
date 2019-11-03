@@ -4,11 +4,13 @@
             <div class="saved-jobs-page-container">
                 <div class="card-container">
                     <job-card
-                        title="Delivery Driver"
-                        sub-title="Gold Mechanical"
+                        v-for="job in favoriteJobs"
+                        :id="job.id"
+                        :key="job.id"
+                        :title="job.title"
+                        :sub-title="job.employer"
+                        :time="job.created_at"
                         main-icon="favorite"
-                        walking-distance="5 min"
-                        busing-distance="10 min"
                     />
                 </div>
             </div>
@@ -18,12 +20,16 @@
 
 <script>
     import JobCard from "../components/JobCard";
+    import { mapState } from 'vuex';
 
     export default {
         name: 'SavedJobs',
         components: {
             JobCard,
-        }
+        },
+        computed: {
+            ...mapState(['favoriteJobs']),
+        },
     }
 </script>
 

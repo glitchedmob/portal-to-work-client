@@ -2,7 +2,7 @@
     <q-layout>
         <q-page-container>
             <q-page padding>
-                <q-form class="text-primary">
+                <q-form class="text-primary job-form">
                     <q-item>
                         <q-item-section>
                             <q-item-label>Only Jobs Near Me</q-item-label>
@@ -12,6 +12,17 @@
                                 color="primary"
                                 :value="nearby"
                                 @input="updateNearby"/>
+                        </q-item-section>
+                    </q-item>
+                    <q-item>
+                        <q-item-section>
+                            <q-item-label>Show Newest Jobs First</q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                            <q-toggle
+                                color="primary"
+                                :value="sortByDate"
+                                @input="updateSortByDate"/>
                         </q-item-section>
                     </q-item>
                     <q-item>
@@ -63,11 +74,12 @@
             jobTypeOptions: jobTypes,
         }),
         computed: {
-            ...mapState(['nearby', 'radius', 'educationLevel', 'jobType']),
+            ...mapState(['nearby', 'sortByDate', 'radius', 'educationLevel', 'jobType']),
         },
         methods: {
             ...mapMutations([
                 'updateNearby',
+                'updateSortByDate',
                 'updateRadius',
                 'updateEducationLevel',
                 'updateJobType',
@@ -82,5 +94,10 @@
         font-size: 1.25em;
         padding: 5px 0px 0px 0px;
         color: $primary;
+    }
+
+    .job-form {
+        margin: 0 auto;
+        max-width: 600px;
     }
 </style>

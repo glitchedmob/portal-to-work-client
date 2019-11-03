@@ -1,8 +1,17 @@
 <template>
     <q-page-container>
-        <q-page class="q-px-md" v-if="job">
+        <q-page class="q-px-md q-mt-lg job-page" v-if="job">
             <p class="text-h5 text-weight-medium">{{ job.title }}</p>
-            <p class="text-subtitle1">{{ job.employer.name }}</p>
+            <div class="row">
+                <p class="text-subtitle1">{{ job.employer.name }}</p>
+                <q-space />
+                <q-btn
+                    round
+                    flat
+                    @click="toggleFavorite"
+                    class="text-primary q-pb-md"
+                    :icon="isFavorited ? 'favorite' : 'favorite_border'" />
+            </div>
 
             <q-list bordered class="rounded-borders text-primary">
                 <q-expansion-item
@@ -49,40 +58,42 @@
             <google-map v-if="locations.length" :pins="locations"/>
 
             <div class="row q-py-md">
-                <q-icon
-                    v-if="walkingTime"
-                    class="col"
-                    name="directions_walk"
-                    color="primary"
-                    size="26px"
-                />
-                <q-icon
-                    v-if="bikingTime"
-                    class="col"
-                    name="directions_bike"
-                    color="primary"
-                    size="26px"
-                />
-                <q-icon
-                    v-if="transitTime"
-                    class="col"
-                    name="directions_bus"
-                    color="primary"
-                    size="26px"
-                />
-                <q-icon
-                    v-if="drivingTime"
-                    class="col"
-                    name="directions_car"
-                    color="primary"
-                    size="26px"
-                />
-            </div>
-            <div class="row q-px-lg">
-                <p v-if="walkingTime" class="col">{{ walkingTime }}</p>
-                <p v-if="bikingTime" class="col">{{ bikingTime }}</p>
-                <p v-if="transitTime"class="col">{{ transitTime }}</p>
-                <p v-if="drivingTime" class="col">{{ drivingTime }}</p>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_walk"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ drivingTime }}</p>
+                </div>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_bike"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ walkingTime }}</p>
+                </div>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_bus"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ transitTime }}</p>
+                </div>
+                <div class="icon-set">
+                    <q-icon
+                        class="col"
+                        name="directions_car"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p class="col">{{ bikingTime }}</p>
+                </div>
             </div>
 
             <q-card flat class="address-section text-primary">
@@ -114,8 +125,8 @@
 
     import {jobsApi} from '../common/http';
     import GoogleMap from "../components/GoogleMap";
-    import {mapState} from 'vuex';
-    import {googleMaps} from "../common/google-maps";
+    import { mapState, mapMutations }  from 'vuex';
+    import { googleMaps } from "../common/google-maps";
     import jobTypes from '../common/job-types';
     import educationLevels from '../common/education-levels';
 
@@ -132,7 +143,7 @@
             bikingTime: null,
         }),
         computed: {
-            ...mapState(['coordinates']),
+            ...mapState(['coordinates', 'favoriteJobs']),
             educationRequirements() {
                 return educationLevels
                     .filter(level => level.value === this.job.req_education)
@@ -168,8 +179,32 @@
                 }
                 return base + next;
             },
+            isFavorited() {
+                const ids = this.favoriteJobs.map(job => job.id);
+                return ids.includes(this.job.id)
+            }
         },
         methods: {
+            ...mapMutations([
+                'addFavoriteJob',
+                'removeFavoriteJob',
+            ]),
+
+            toggleFavorite() {
+
+                if (this.isFavorited) {
+                    this.removeFavoriteJob(this.job.id);
+                    return;
+                }
+
+                this.addFavoriteJob({
+                    id: this.job.id,
+                    title: this.job.title,
+                    employer: this.job.employer.name,
+                    created_at: this.job.created_at
+                });
+
+            },
 
             async getTravelTimeFor(mode, dataName) {
                 if (!this.locations) return;
@@ -188,8 +223,6 @@
                     travelMode: mode,
                 };
                 directionsService.route(request, (result, status) => {
-                    console.log(mode);
-                    console.log(result);
                     this[dataName] = result.routes[0].legs[0].duration.text;
                 });
             }
@@ -217,13 +250,18 @@
             }).catch((err) => {
                 console.log(err);
                 this.$q.loading.hide();
-                // this.$router.push('/404');
+                this.$router.push('/404');
             });
         },
     };
 </script>
 
 <style scoped lang="scss">
+    .job-page {
+        margin: 0 auto;
+        max-width: 600px;
+    }
+
     .col p {
         font-size: 20px;
     }
@@ -236,9 +274,16 @@
     .address-section {
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     .map {
         height: 200px;
+    }
+
+    .icon-set {
+        flex-direction: column;
+        text-align: center;
+        flex-grow: 1;
     }
 </style>
