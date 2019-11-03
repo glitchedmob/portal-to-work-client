@@ -1,6 +1,6 @@
 <template>
     <q-page-container>
-        <q-page class="q-px-md q-mt-lg job-page" v-if="job">
+        <q-page class="q-px-sm q-mt-lg job-page" v-if="job">
             <p class="text-h5 text-weight-medium">{{ job.title }}</p>
             <div class="row">
                 <p class="text-subtitle1">{{ job.employer.name }}</p>
@@ -55,28 +55,28 @@
                 :href="job.url"
             />
 
-            <google-map v-if="locations.length" :pins="locations"/>
+            <google-map v-if="locations.length > 0" :pins="locations" class="map" />
 
             <div class="row q-py-md">
-                <div class="icon-set">
+                <div v-if="walkingTime" class="icon-set">
                     <q-icon
                         class="col"
                         name="directions_walk"
                         color="primary"
                         size="26px"
                     />
-                    <p class="col">{{ drivingTime }}</p>
+                    <p class="col">{{ walkingTime }}</p>
                 </div>
-                <div class="icon-set">
+                <div v-if="bikingTime" class="icon-set">
                     <q-icon
                         class="col"
                         name="directions_bike"
                         color="primary"
                         size="26px"
                     />
-                    <p class="col">{{ walkingTime }}</p>
+                    <p class="col">{{ bikingTime }}</p>
                 </div>
-                <div class="icon-set">
+                <div v-if="transitTime" class="icon-set">
                     <q-icon
                         class="col"
                         name="directions_bus"
@@ -85,14 +85,14 @@
                     />
                     <p class="col">{{ transitTime }}</p>
                 </div>
-                <div class="icon-set">
+                <div v-if="drivingTime" class="icon-set">
                     <q-icon
                         class="col"
                         name="directions_car"
                         color="primary"
                         size="26px"
                     />
-                    <p class="col">{{ bikingTime }}</p>
+                    <p class="col">{{ drivingTime }}</p>
                 </div>
             </div>
 
