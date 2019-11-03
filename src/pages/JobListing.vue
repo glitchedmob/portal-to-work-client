@@ -4,16 +4,26 @@
             <div class="listing-page-container">
                 <ais-instant-search :search-client="searchClient" index-name="jobs">
                     <ais-search-box>
-                        <div class="search-bar" slot-scope="{ currentRefinement, isSearchStalled, refine }">
-                            <q-input
-                                square
-                                outlined
-                                :value="currentRefinement"
-                                @input="refine($event)"
-                                placeholder="Search"
-                            >
-                                <q-btn flat class="search-button" icon="search"></q-btn>
-                            </q-input>
+                        <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
+                            <div class="search-and-button">
+                                <q-input
+                                    square
+                                    outlined
+                                    :value="currentRefinement"
+                                    @input="refine($event)"
+                                    placeholder="Search"
+                                    class="search-bar"
+                                >
+                                    <q-btn flat class="search-button" icon="search"></q-btn>
+                                </q-input>
+                                <q-btn
+                                    round
+                                    color="primary"
+                                    icon="settings"
+                                    class="q-mx-sm"
+                                    to="/app/jobs/filter"
+                                />
+                            </div>
                         </div>
                     </ais-search-box>
                     <ais-hits>
@@ -84,11 +94,13 @@
         }
     }
 
-    .search-bar {
+    .search-and-button {
         width: 100%;
+        display: flex;
+        align-items: center;
     }
 
-    .card-container {
-        width: 100%;
+    .search-bar {
+        flex-grow: 2;
     }
 </style>
