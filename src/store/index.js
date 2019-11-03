@@ -21,7 +21,8 @@ export default function (/* { ssrContext } */) {
             nearby: false,
             radius: '',
             educationLevel: '',
-            jobType: ''
+            jobType: '',
+            currentTab: 'map',
         },
         mutations: {
             initialiseStore(state) {
@@ -66,6 +67,9 @@ export default function (/* { ssrContext } */) {
             },
             updateJobType(state, value) {
                 state.jobType = value;
+            },
+            updateCurrentTab(state, value) {
+                state.currentTab = value;
             }
         },
         getters: {},

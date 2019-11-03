@@ -30,7 +30,8 @@
                     <ais-hits>
                         <template slot-scope="{ items }">
                             <q-tabs
-                                v-model="tab"
+                                :value="currentTab"
+                                @input="updateCurrentTab"
                                 active-color="primary"
                                 indicator-color="primary"
                                 align="justify"
@@ -39,7 +40,7 @@
                                 <q-tab name="list" label="List" />
                                 <q-tab name="map" label="Map" />
                             </q-tabs>
-                            <q-tab-panels v-model="tab" animated>
+                            <q-tab-panels :value="currentTab" @input="updateCurrentTab" animated>
                                 <q-tab-panel name="list">
                                     <job-card
                                         v-for="item in items"
@@ -63,7 +64,7 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
     import { AisInstantSearch, AisSearchBox, AisHits, AisConfigure } from 'vue-instantsearch';
     import algoliasearch from 'algoliasearch/lite';
     import JobCard from '../components/JobCard';
@@ -86,7 +87,7 @@
             tab: 'list',
         }),
         computed: {
-            ...mapState(['coordinates']),
+            ...mapState(['coordinates', 'currentTab']),
             searchParameters() {
                 return {
                     aroundLatLng: `${this.coordinates.latitude}, ${this.coordinates.longitude}`
@@ -94,9 +95,7 @@
             }
         },
         methods: {
-            test(args) {
-                console.log(args);
-            },
+            ...mapMutations(['updateCurrentTab']),
             mapPins(items) {
                 return items
                     .map((item, index) => item.locations.data

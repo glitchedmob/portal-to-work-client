@@ -78,7 +78,6 @@
                 const bounds = new google.maps.LatLngBounds();
 
                 this.$options.markers = this.pins.map(pin => {
-                    console.log(pin.label);
                     const marker = new google.maps.Marker({
                         position: {
                             lat: pin.lat,
