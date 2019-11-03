@@ -47,7 +47,7 @@
             />
 
             <google-map v-if="locations.length" :pins="locations"/>
-            
+
             <div class="row q-py-md">
                 <q-icon
                     class="col"
@@ -87,7 +87,7 @@
                         unelevated
                         rounded
                         class="q-px-xl q-py-sm"
-                        size="md"
+                        size="lg"
                         color="primary"
                         label="Map"
                         type="a"
