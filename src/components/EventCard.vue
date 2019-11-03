@@ -1,13 +1,13 @@
 <template>
     <q-card flat square id="event-card" class="q-ma-md">
-        <q-item clickable @click="navigateToEDetail">
+        <q-item clickable class="q-pt-sm" @click="navigateToEDetail">
             <q-item-section class="card-text">
-                <q-item-label class="card-title">{{ title }}</q-item-label>
+                <q-item-label class="q-pt-sm card-title">{{ title }}</q-item-label>
                 <q-item-label caption class="card-description">{{ description }}</q-item-label>
             </q-item-section>
             <q-item-section class="calendar">
-                <h5>{{ month }}</h5>
-                <h4>{{ day }}</h4>
+                <p class="text-h6 text-weight-medium">{{ month }}</p>
+                <p>{{ day }}</p>
             </q-item-section>
         </q-item>
     </q-card>
@@ -31,12 +31,6 @@
 </script>
 
 <style scoped lang="scss">
-    #event-card {
-        h1 {
-            font-size: 2em;
-            margin: 20px;
-        }
-    }
 
     .card-text {
         flex-grow: 3;
@@ -58,14 +52,8 @@
         height: 75px;
         max-width: 75px;
 
-        h4 {
+        p {
             margin: 0 10px 0 10px;
-            font-size: 1.75em;
-        }
-
-        h5 {
-            margin: 0 10px 0 10px;
-            font-size: 1.2em;
         }
     }
 </style>
