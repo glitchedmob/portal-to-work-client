@@ -29,14 +29,38 @@
                     </ais-search-box>
                     <ais-hits>
                         <template slot-scope="{ items }">
-                            <job-card
-                                v-for="item in items"
-                                :key="item.objectID"
-                                :id="item.objectID"
-                                :title="item.title"
-                                :sub-title="item.employer.name"
-                                main-icon="favorite"
-                            />
+                            <q-tabs
+                                v-model="tab"
+                                active-color="primary"
+                                indicator-color="primary"
+                                align="justify"
+                                class="text-primary"
+                            >
+                                <q-tab name="list" label="List" />
+                                <q-tab name="map" label="Map" />
+                            </q-tabs>
+                            <q-tab-panels v-model="tab" animated>
+                                <q-tab-panel name="list">
+                                    <job-card
+                                        v-for="item in items"
+                                        :key="item.objectID"
+                                        :id="item.objectID"
+                                        :title="item.title"
+                                        :sub-title="item.employer.name"
+                                        main-icon="favorite"
+                                    />
+                                </q-tab-panel>
+                                <q-tab-panel name="map">
+                                    <job-card
+                                        v-for="item in items"
+                                        :key="item.objectID"
+                                        :id="item.objectID"
+                                        :title="item.title"
+                                        :sub-title="item.employer.name"
+                                        main-icon="favorite"
+                                    />
+                                </q-tab-panel>
+                            </q-tab-panels>
                         </template>
                     </ais-hits>
                 </ais-instant-search>
@@ -64,6 +88,7 @@
                 process.env.ALGOLIA_APP_ID,
                 process.env.ALGOLIA_SEARCH_KEY,
             ),
+            tab: 'list',
         }),
         computed: {
             ...mapState(['coordinates']),
@@ -93,14 +118,10 @@
 
     .listing-page-container {
         margin: 0 auto;
-        width: 75%;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-
-        @media (max-width: 600px) {
-            width: 95%
-        }
+        max-width: 600px;
     }
 
     .search-and-button {
