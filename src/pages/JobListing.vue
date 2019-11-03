@@ -2,11 +2,11 @@
     <q-page-container>
         <q-page id="listing-page">
             <div class="listing-page-container">
-                <ais-instant-search :search-client="searchClient" index-name="jobs" >
+                <ais-instant-search :search-client="searchClient" index-name="jobs" class="full-width">
                     <ais-configure v-bind="searchParameters" />
                     <ais-search-box>
                         <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
-                            <div class="search-and-button">
+                            <div class="search-and-button q-pl-sm">
                                 <q-input
                                     square
                                     outlined
@@ -50,15 +50,8 @@
                                         main-icon="favorite"
                                     />
                                 </q-tab-panel>
-                                <q-tab-panel name="map">
-                                    <job-card
-                                        v-for="item in items"
-                                        :key="item.objectID"
-                                        :id="item.objectID"
-                                        :title="item.title"
-                                        :sub-title="item.employer.name"
-                                        main-icon="favorite"
-                                    />
+                                <q-tab-panel name="map" class="q-pa-none">
+                                    <google-map :pins="mapPins(items)" @select="onMapSelect" class="map"/>
                                 </q-tab-panel>
                             </q-tab-panels>
                         </template>
@@ -74,6 +67,7 @@
     import { AisInstantSearch, AisSearchBox, AisHits, AisConfigure } from 'vue-instantsearch';
     import algoliasearch from 'algoliasearch/lite';
     import JobCard from '../components/JobCard';
+    import GoogleMap from '../components/GoogleMap';
 
     export default {
         components: {
@@ -82,6 +76,7 @@
             AisSearchBox,
             AisHits,
             AisConfigure,
+            GoogleMap,
         },
         data: () => ({
             searchClient: algoliasearch(
@@ -102,11 +97,26 @@
             test(args) {
                 console.log(args);
             },
+            mapPins(items) {
+                return items
+                    .map((item, index) => item.locations.data
+                        .map(location => ({
+                            label: index,
+                            value: item.objectID,
+                            lat: location.lat,
+                            lng: location.lng
+                        })))
+                    .reduce((finalArr, locationArr) => [...finalArr, ...locationArr], [])
+                    .filter(location => location.lat && location.lng);
+            },
+            onMapSelect(value) {
+                this.$router.push(`/app/jobs/${value}`);
+            },
         },
     };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
     #listing-page {
         text-align: center;
 
@@ -122,6 +132,7 @@
         justify-content: center;
         flex-wrap: wrap;
         max-width: 600px;
+        width: 100%;
     }
 
     .search-and-button {
@@ -132,5 +143,11 @@
 
     .search-bar {
         flex-grow: 2;
+    }
+
+    .map {
+        width: 100vw;
+        height: calc(100vh - 216px);
+        margin: 0 0 -68px 0;
     }
 </style>
