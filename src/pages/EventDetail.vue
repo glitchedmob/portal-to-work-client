@@ -2,7 +2,7 @@
     <q-page-container>
         <q-page class="q-pa-lg" v-if=event>
             <p class="text-h5 text-weight-medium">{{ event.title }}</p>
-            <p class="text-subtitle1">{{  }}</p>
+            <p class="text-subtitle1">{{ }}</p>
 
             <q-item-section class="calendar">
                 <h5>{{ event.date_begin }}</h5>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-    import http from '../common/http';
+    import { jobsApi } from '../common/http';
 
     export default {
         data: () => ({
@@ -56,13 +56,13 @@
             });
             const { id } = this.$route.params;
 
-            if(!id) {
+            if (!id) {
                 this.$router.push('/404');
                 this.$q.loading.hide();
                 return;
             }
 
-            http.get(`${process.env.JOBS_API_URL}/event/${id}`).then(res => {
+            jobsApi.get(`/event/${id}`).then(res => {
                 this.event = res.data.data;
                 this.$q.loading.hide();
                 console.log(this.event);
@@ -71,7 +71,7 @@
                 this.$router.push('/404');
             });
         },
-    }
+    };
 </script>
 
 <style scoped lang="scss">
