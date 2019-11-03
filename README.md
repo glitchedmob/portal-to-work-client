@@ -1,6 +1,7 @@
 # Quasar App (portal-to-work)
 
 A Quasar Framework app
+
 Server Repo: https://github.com/glitchedmob/portal-to-work-server/
 
 ## Install the dependencies
