@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+import { portalToWorkApi } from '../common/http';
 
 Vue.use(Vuex);
 
@@ -59,7 +59,7 @@ export default function (/* { ssrContext } */) {
 
                 if (!state.userId) return;
 
-                await axios.post(`${process.env.PORTAL_TO_WORK_URL}/device/register`, {
+                await portalToWorkApi.post('/device/register', {
                     playerId: state.userId,
                     lat: coordinates.latitude,
                     lng: coordinates.longitude
