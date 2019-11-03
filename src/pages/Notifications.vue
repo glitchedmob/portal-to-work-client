@@ -15,7 +15,7 @@
 
                 <q-separator />
 
-                <q-tab-panels v-model="tab" animated>
+                <q-tab-panels style="width: 100%" v-model="tab" animated>
                     <q-tab-panel name="jobs">
                         <div class="card-container">
                             <job-card
