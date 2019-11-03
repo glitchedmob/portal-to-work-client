@@ -87,11 +87,40 @@
             tab: 'list',
         }),
         computed: {
-            ...mapState(['coordinates', 'currentTab']),
+            ...mapState([
+                'coordinates',
+                'currentTab',
+                'nearby',
+                'radius',
+                'educationLevel',
+                'jobType',
+            ]),
             searchParameters() {
-                return {
-                    aroundLatLng: `${this.coordinates.latitude}, ${this.coordinates.longitude}`
+                const parameters = {};
+
+                if(this.nearby) {
+                    parameters.aroundLatLng = `${this.coordinates.latitude}, ${this.coordinates.longitude}`;
+
+                    if(this.radius) {
+                        parameters.aroundRadius = Math.round(this.milesToKilometers(this.radius) * 100);
+                    }
                 }
+
+                if(this.educationLevel !== 'all') {
+                    parameters.filters = `req_education:${this.educationLevel}`;
+                }
+
+                if(this.jobType !== 'all') {
+                    let prefix = '';
+
+                    if(parameters.filters) {
+                        prefix = `${parameters.filters} AND `;
+                    }
+
+                    parameters.filters = `${prefix}job_type:${this.jobType}`;
+                }
+
+                return parameters;
             }
         },
         methods: {
@@ -111,6 +140,9 @@
             onMapSelect(value) {
                 this.$router.push(`/app/jobs/${value}`);
             },
+            milesToKilometers(miles) {
+                return miles * 1.60934;
+            }
         },
     };
 </script>

@@ -18,18 +18,18 @@
                 </q-expansion-item>
 
                 <q-item class="">
-                        <q-item-label>Salary</q-item-label>
+                    <q-item-label>Salary</q-item-label>
                     <q-space/>
-                        <q-item-label>{{ job.pay_rate }}</q-item-label>
+                    <q-item-label>{{ job.pay_rate }}</q-item-label>
                 </q-item>
 
-                <q-item class="">
+                <q-item class="" v-if="job.job_type">
                     <q-item-label>Job Type</q-item-label>
                     <q-space/>
                     <q-item-label>{{ jobType }}</q-item-label>
                 </q-item>
 
-                <q-item class="">
+                <q-item class="" v-if="job.req_education">
                     <q-item-label>Requirements</q-item-label>
                     <q-space/>
                     <q-item-label>{{ educationRequirements }}</q-item-label>
@@ -65,7 +65,9 @@
                 </q-card-section>
                 <q-card-section class="q-py-none">
                     <q-item-label>{{ job.locations.data[0].street }}</q-item-label>
-                    <q-item-label caption>{{ job.locations.data[0].city }}, {{ job.locations.data[0].state }} {{ job.locations.data[0].zipcode }}</q-item-label>
+                    <q-item-label caption>{{ job.locations.data[0].city }}, {{ job.locations.data[0].state }} {{
+                        job.locations.data[0].zipcode }}
+                    </q-item-label>
                 </q-card-section>
             </q-card>
         </q-page>
@@ -74,30 +76,31 @@
 
 <script>
     import { jobsApi } from '../common/http';
-    import GoogleMap from "../components/GoogleMap";
+    import GoogleMap from '../components/GoogleMap';
+
+    import jobTypes from '../common/job-types';
+    import educationLevels from '../common/education-levels';
 
     export default {
         components: {
-            GoogleMap
+            GoogleMap,
         },
         data: () => ({
             job: null,
         }),
         computed: {
             educationRequirements() {
-                if (this.job.req_education === 'high_school') {
-                    return 'High School or Equiv';
-                }
-                return this.job.req_education;
+                return educationLevels
+                    .filter(level => level.value === this.job.req_education)
+                    .map(level => level.label)[0];
             },
             jobType() {
-                if (this.job.job_type === 'full_time') {
-                    return 'Full Time';
-                }
-                return this.job.job_type;
+                return jobTypes
+                    .filter(type => type.value === this.job.job_type)
+                    .map(type => type.label)[0];
             },
             locations() {
-                if(this.job == null) return [];
+                if (this.job == null) return [];
 
                 return this.job.locations.data
                     .map(location => ({
@@ -120,8 +123,7 @@
                                 encodeURIComponent(this.job.locations.data[0].zipcode);
                 }
                 return base + next;
-
-            }
+            },
         },
         created() {
             this.$q.loading.show({
@@ -129,7 +131,7 @@
             });
             const { id } = this.$route.params;
 
-            if(!id) {
+            if (!id) {
                 this.$router.push('/404');
                 this.$q.loading.hide();
                 return;

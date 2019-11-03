@@ -18,10 +18,10 @@ export default function (/* { ssrContext } */) {
                 latitude: '',
                 longitude: '',
             },
-            nearby: false,
+            nearby: true,
             radius: '',
-            educationLevel: '',
-            jobType: '',
+            educationLevel: 'all',
+            jobType: 'all',
             currentTab: 'map',
         },
         mutations: {
