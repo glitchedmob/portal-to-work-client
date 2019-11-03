@@ -46,8 +46,8 @@
                 target="_blank"
                 :href="job.url"
             />
-
-            <google-map v-if="!pins" :pins="pins" />
+<!--:pins="pins"-->
+            <google-map v-if="locations.length" :pins="locations"/>
 
             <q-card flat class="address-section text-primary">
                 <q-card-section>
@@ -79,17 +79,6 @@
         },
         data: () => ({
             job: null,
-            locations: null,
-            pins: [
-                {
-                    lat: this.locations[0].lat,
-                    lng: this.locations[0].lng,
-                },
-                {
-                    lat: this.locations[1].lat,
-                    lng: this.locations[1].lng,
-                }
-            ]
         }),
         computed: {
             educationRequirements() {
@@ -98,13 +87,22 @@
                 }
                 return this.job.req_education;
             },
-
             jobType() {
                 if (this.job.job_type === 'full_time') {
                     return 'Full Time';
                 }
                 return this.job.job_type;
             },
+            locations() {
+                if(this.job == null) return [];
+
+                return this.job.locations.data
+                    .map(location => ({
+                        lat: parseFloat(location.lat),
+                        lng: parseFloat(location.lng),
+                    }))
+                    .filter(location => location.lng && location.lat);
+            }
         },
         created() {
             this.$q.loading.show({
@@ -120,10 +118,7 @@
 
             jobsApi.get(`/job/${id}`).then(res => {
                 this.job = res.data.data;
-                this.locations = this.job.locations.data;
                 this.$q.loading.hide();
-                console.log(this.job);
-                console.log(this.locations);
             }).catch((err) => {
                 this.$q.loading.hide();
                 this.$router.push('/404');
