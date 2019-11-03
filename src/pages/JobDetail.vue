@@ -40,7 +40,7 @@
                 rounded
                 size="lg"
                 color="primary"
-                class="my-btn-center"
+                class="q-pt-sm my-btn-center"
                 label="APPLY NOW"
                 type="a"
                 target="_blank"
@@ -52,7 +52,8 @@
                     <q-btn
                         unelevated
                         rounded
-                        size="lg"
+                        class="q-px-xl q-py-sm"
+                        size="md"
                         color="primary"
                         label="Map"
                     />
