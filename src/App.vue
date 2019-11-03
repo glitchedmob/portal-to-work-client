@@ -5,13 +5,12 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapMutations } from 'vuex';
     import { setup } from './common/onesignal';
 
     export default {
         name: 'App',
-        beforeCreate() {
+        created() {
             this.initialiseStore();
 
             setup().then((userId) => {
@@ -19,7 +18,7 @@
             });
         },
         methods: {
-            ...mapMutations(['initializeStore', 'updateUserId']),
+            ...mapMutations(['initialiseStore', 'updateUserId']),
         },
     };
 </script>

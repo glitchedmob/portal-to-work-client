@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios';
 
 Vue.use(Vuex);
 
@@ -7,6 +8,7 @@ export default function (/* { ssrContext } */) {
 
     const Store = new Vuex.Store({
         state: {
+            userId: null,
             addressLine1: '',
             addressLine2: '',
             city: '',
@@ -16,7 +18,6 @@ export default function (/* { ssrContext } */) {
                 latitude: '',
                 longitude: '',
             },
-            userId: '',
         },
         mutations: {
             initialiseStore(state) {
@@ -49,9 +50,22 @@ export default function (/* { ssrContext } */) {
             },
             updateUserId(state, value) {
                 state.userId = value;
-            }
+            },
         },
         getters: {},
+        actions: {
+            async register({ commit, state }, coordinates) {
+                commit('updateCoordinates', coordinates);
+
+                if (!state.userId) return;
+
+                await axios.post(`${process.env.PORTAL_TO_WORK_URL}/device/register`, {
+                    playerId: state.userId,
+                    lat: coordinates.latitude,
+                    lng: coordinates.longitude
+                });
+            }
+        },
 
         // enable strict mode (adds overhead!)
         // for dev mode only

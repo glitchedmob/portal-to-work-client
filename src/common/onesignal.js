@@ -6,7 +6,7 @@ export async function setup() {
 
     const isLocalHost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
 
-    if (Platform.is.cordova || Platform.is.capacitor) {
+    if (Platform.is.cordova || Platform.is.capacitor || isLocalHost) {
         return;
     }
 
