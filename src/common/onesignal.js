@@ -6,29 +6,27 @@ export async function setup() {
 
     const isLocalHost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
 
-    if (Platform.is.cordova || Platform.is.capacitor) {
+    if (Platform.is.cordova || Platform.is.capacitor || isLocalHost) {
         return;
     }
 
     await loadScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js');
 
-    const OneSignal = await loadOneSignal();
-
-    OneSignal.init({
-        appId: process.env.ONESIGNAL_APP_ID,
-    });
-
-    const userId = await OneSignal.getUserId();
-
-    console.log(userId);
+    return await getOneSignalUserId();
 }
 
-function loadOneSignal() {
+function getOneSignalUserId() {
     return new Promise((resolve, reject) => {
         const OneSignal = window.OneSignal || [];
 
         OneSignal.push(() => {
-            resolve(OneSignal);
+            OneSignal.init({
+                appId: process.env.ONESIGNAL_APP_ID,
+            });
+
+            OneSignal.getUserId().then((userId) => {
+                resolve(userId);
+            });
         });
     });
 }

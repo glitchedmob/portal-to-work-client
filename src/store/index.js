@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { portalToWorkApi } from '../common/http';
 
 Vue.use(Vuex);
 
@@ -7,6 +8,7 @@ export default function (/* { ssrContext } */) {
 
     const Store = new Vuex.Store({
         state: {
+            userId: null,
             addressLine1: '',
             addressLine2: '',
             city: '',
@@ -15,7 +17,7 @@ export default function (/* { ssrContext } */) {
             coordinates: {
                 latitude: '',
                 longitude: '',
-            }
+            },
         },
         mutations: {
             initialiseStore(state) {
@@ -45,9 +47,25 @@ export default function (/* { ssrContext } */) {
             updateCoordinates(state, { latitude, longitude }) {
                 state.coordinates.latitude = latitude;
                 state.coordinates.longitude = longitude;
-            }
+            },
+            updateUserId(state, value) {
+                state.userId = value;
+            },
         },
         getters: {},
+        actions: {
+            async register({ commit, state }, coordinates) {
+                commit('updateCoordinates', coordinates);
+
+                if (!state.userId) return;
+
+                await portalToWorkApi.post('/device/register', {
+                    playerId: state.userId,
+                    lat: coordinates.latitude,
+                    lng: coordinates.longitude
+                });
+            }
+        },
 
         // enable strict mode (adds overhead!)
         // for dev mode only

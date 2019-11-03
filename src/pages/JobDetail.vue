@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import http from '../common/http';
+    import { jobsApi } from '../common/http';
 
     export default {
         data: () => ({
@@ -100,10 +100,11 @@
                 return;
             }
 
-            http.get(`${process.env.JOBS_API_URL}/job/${id}`).then(res => {
+            jobsApi.get(`/job/${id}`).then(res => {
                 this.job = res.data.data;
                 this.$q.loading.hide();
-            }).catch(() => {
+                console.log(this.job);
+            }).catch((err) => {
                 this.$q.loading.hide();
                 this.$router.push('/404');
             });
