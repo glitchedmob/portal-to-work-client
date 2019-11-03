@@ -12,16 +12,12 @@ export async function setup() {
 
     await loadScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js');
 
-    const OneSignal = await loadOneSignal();
-
-    console.log(OneSignal);
-
-    const userId = await OneSignal.getUserId();
+    const userId = await getOneSignalUserId();
 
     console.log(`userId: ${userId}`);
 }
 
-function loadOneSignal() {
+function getOneSignalUserId() {
     return new Promise((resolve, reject) => {
         const OneSignal = window.OneSignal || [];
 
@@ -29,7 +25,10 @@ function loadOneSignal() {
             OneSignal.init({
                 appId: process.env.ONESIGNAL_APP_ID,
             });
-            resolve(OneSignal);
+
+            OneSignal.getUserId().then((userId) => {
+                resolve(userId);
+            });
         });
     });
 }
