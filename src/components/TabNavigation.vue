@@ -3,7 +3,6 @@
         inline-label
         class="fixed-nav bg-primary text-white shadow-2">
         <q-route-tab name="home" icon="home" to="/app/jobs" />
-<!--        <q-route-tab exact name="location" icon="explore" to="/"/>-->
         <q-route-tab exact name="saved-jobs" icon="favorite" to="/app/saved-jobs"/>
         <q-route-tab exact name="events" icon="calendar_today" to="/app/events"/>
         <q-route-tab exact name="notifications" icon="notifications" to="/app/notifications"/>
@@ -22,5 +21,6 @@
         position: fixed;
         bottom: 0;
         width: 100%;
+        overflow: hidden;
     }
 </style>
