@@ -20,7 +20,7 @@
 
     export default {
         props: {
-            id: String,
+            id: [Number, String],
             mainIcon: String,
             title: String,
             subTitle: String,

@@ -5,7 +5,12 @@
             <div class="row">
                 <p class="text-subtitle1">{{ job.employer.name }}</p>
                 <q-space />
-                <q-btn round flat class="text-primary q-pb-md" icon="favorite_border" />
+                <q-btn
+                    round
+                    flat
+                    @click="toggleFavorite"
+                    class="text-primary q-pb-md"
+                    :icon="isFavorited ? 'favorite' : 'favorite_border'" />
             </div>
 
             <q-list bordered class="rounded-borders text-primary">
@@ -120,7 +125,7 @@
 
     import { jobsApi } from '../common/http';
     import GoogleMap from "../components/GoogleMap";
-    import { mapState }  from 'vuex';
+    import { mapState, mapMutations }  from 'vuex';
     import { googleMaps } from "../common/google-maps";
     import jobTypes from '../common/job-types';
     import educationLevels from '../common/education-levels';
@@ -138,7 +143,7 @@
             bikingTime: null,
         }),
         computed: {
-            ...mapState(['coordinates']),
+            ...mapState(['coordinates', 'favoriteJobs']),
             educationRequirements() {
                 return educationLevels
                     .filter(level => level.value === this.job.req_education)
@@ -174,8 +179,32 @@
                 }
                 return base + next;
             },
+            isFavorited() {
+                const ids = this.favoriteJobs.map(job => job.id);
+                return ids.includes(this.job.id)
+            }
         },
         methods: {
+            ...mapMutations([
+                'addFavoriteJob',
+                'removeFavoriteJob',
+            ]),
+
+            toggleFavorite() {
+
+                if (this.isFavorited) {
+                    this.removeFavoriteJob(this.job.id);
+                    return;
+                }
+
+                this.addFavoriteJob({
+                    id: this.job.id,
+                    title: this.job.title,
+                    employer: this.job.employer.name,
+                    created_at: this.job.created_at
+                });
+
+            },
 
             async getTravelTimeFor(mode, dataName) {
                 if(!this.locations) return;

@@ -24,6 +24,7 @@ export default function (/* { ssrContext } */) {
             educationLevel: 'all',
             jobType: 'all',
             currentTab: 'list',
+            favoriteJobs: []
         },
         mutations: {
             initialiseStore(state) {
@@ -74,6 +75,15 @@ export default function (/* { ssrContext } */) {
             },
             updateCurrentTab(state, value) {
                 state.currentTab = value;
+            },
+            addFavoriteJob(state, value) {
+                state.favoriteJobs = [
+                    value,
+                    ...state.favoriteJobs,
+                ];
+            },
+            removeFavoriteJob(state, id) {
+                state.favoriteJobs = state.favoriteJobs.filter(job => job.id !== id);
             }
         },
         getters: {},
