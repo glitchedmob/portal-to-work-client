@@ -194,8 +194,6 @@
                     travelMode: mode,
                 };
                 directionsService.route(request, (result, status) => {
-                    console.log(mode);
-                    console.log(result);
                     this[dataName] = result.routes[0].legs[0].duration.text;
                 });
             }

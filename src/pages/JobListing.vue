@@ -2,7 +2,11 @@
     <q-page-container>
         <q-page id="listing-page">
             <div class="listing-page-container">
-                <ais-instant-search :search-client="searchClient" index-name="jobs" class="full-width">
+                <ais-instant-search
+                    :search-client="searchClient"
+                    :index-name="sortByDate ? 'Jobs_date' : 'jobs'"
+                    class="full-width"
+                >
                     <ais-configure v-bind="searchParameters" />
                     <ais-search-box>
                         <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
@@ -48,6 +52,7 @@
                                         :id="item.objectID"
                                         :title="item.title"
                                         :sub-title="item.employer.name"
+                                        :time="item.created_at"
                                         main-icon="favorite"
                                     />
                                 </q-tab-panel>
@@ -84,13 +89,13 @@
                 process.env.ALGOLIA_APP_ID,
                 process.env.ALGOLIA_SEARCH_KEY,
             ),
-            tab: 'list',
         }),
         computed: {
             ...mapState([
                 'coordinates',
                 'currentTab',
                 'nearby',
+                'sortByDate',
                 'radius',
                 'educationLevel',
                 'jobType',
@@ -121,7 +126,7 @@
                 }
 
                 return parameters;
-            }
+            },
         },
         methods: {
             ...mapMutations(['updateCurrentTab']),
