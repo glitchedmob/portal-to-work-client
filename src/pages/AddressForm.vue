@@ -117,7 +117,7 @@
                 'updateAddressLine2',
                 'updateCity',
                 'updateState',
-                'updateZipCode',,
+                'updateZipCode',
             ]),
             ...mapActions(['register']),
             displayError(message) {

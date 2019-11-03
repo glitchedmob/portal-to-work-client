@@ -18,6 +18,10 @@ export default function (/* { ssrContext } */) {
                 latitude: '',
                 longitude: '',
             },
+            nearby: false,
+            radius: '',
+            educationLevel: '',
+            jobType: ''
         },
         mutations: {
             initialiseStore(state) {
@@ -51,6 +55,18 @@ export default function (/* { ssrContext } */) {
             updateUserId(state, value) {
                 state.userId = value;
             },
+            updateNearby(state, value) {
+                state.nearby = value;
+            },
+            updateRadius(state, value) {
+                state.radius = value;
+            },
+            updateEducationLevel(state, value) {
+                state.educationLevel = value;
+            },
+            updateJobType(state, value) {
+                state.jobType = value;
+            }
         },
         getters: {},
         actions: {
