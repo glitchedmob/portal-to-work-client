@@ -1,9 +1,8 @@
 <template>
     <q-page-container>
-        <q-page class="q-pa-lg" v-if="job">
+        <q-page class="q-px-md" v-if="job">
             <p class="text-h5 text-weight-medium">{{ job.title }}</p>
             <p class="text-subtitle1">{{ job.employer.name }}</p>
-
 
             <q-list bordered class="rounded-borders text-primary">
                 <q-expansion-item
@@ -17,19 +16,19 @@
                     </q-card>
                 </q-expansion-item>
 
-                <q-item class="">
+                <q-item>
                     <q-item-label>Salary</q-item-label>
                     <q-space/>
                     <q-item-label>{{ job.pay_rate }}</q-item-label>
                 </q-item>
 
-                <q-item class="" v-if="job.job_type">
+                <q-item v-if="job.job_type">
                     <q-item-label>Job Type</q-item-label>
                     <q-space/>
                     <q-item-label>{{ jobType }}</q-item-label>
                 </q-item>
 
-                <q-item class="" v-if="job.req_education">
+                <q-item v-if="job.req_education">
                     <q-item-label>Requirements</q-item-label>
                     <q-space/>
                     <q-item-label>{{ educationRequirements }}</q-item-label>
@@ -47,7 +46,40 @@
                 :href="job.url"
             />
 
-            <google-map v-if="locations.length" :pins="locations" class="map"/>
+            <google-map v-if="locations.length" :pins="locations"/>
+            
+            <div class="row q-py-md">
+                <q-icon
+                    class="col"
+                    name="directions_walk"
+                    color="primary"
+                    size="26px"
+                />
+                <q-icon
+                    class="col"
+                    name="directions_bike"
+                    color="primary"
+                    size="26px"
+                />
+                <q-icon
+                    class="col"
+                    name="directions_bus"
+                    color="primary"
+                    size="26px"
+                />
+                <q-icon
+                    class="col"
+                    name="directions_car"
+                    color="primary"
+                    size="26px"
+                />
+            </div>
+            <div class="row q-px-lg">
+                <p class="col">{{ drivingTime }}</p>
+                <p class="col">{{ walkingTime }}</p>
+                <p class="col">{{ transitTime }}</p>
+                <p class="col">{{ bikingTime }}</p>
+            </div>
 
             <q-card flat class="address-section text-primary">
                 <q-card-section>
@@ -75,11 +107,14 @@
 </template>
 
 <script>
-    import { jobsApi } from '../common/http';
-    import GoogleMap from '../components/GoogleMap';
 
+    import { jobsApi } from '../common/http';
+    import GoogleMap from "../components/GoogleMap";
+    import { mapState }  from 'vuex';
+    import { googleMaps } from "../common/google-maps";
     import jobTypes from '../common/job-types';
     import educationLevels from '../common/education-levels';
+
 
     export default {
         components: {
@@ -87,8 +122,13 @@
         },
         data: () => ({
             job: null,
+            drivingTime: null,
+            walkingTime: null,
+            transitTime: null,
+            bikingTime: null,
         }),
         computed: {
+            ...mapState(['coordinates']),
             educationRequirements() {
                 return educationLevels
                     .filter(level => level.value === this.job.req_education)
@@ -125,11 +165,36 @@
                 return base + next;
             },
         },
+        methods: {
+
+            async getTravelTimeFor(mode, dataName) {
+                if(!this.locations) return;
+                const google = await googleMaps();
+
+                let directionsService = new google.maps.DirectionsService();
+                let request = {
+                    origin: new google.maps.LatLng(
+                        parseFloat(this.coordinates.latitude),
+                        parseFloat(this.coordinates.longitude),
+                    ),
+                    destination: new google.maps.LatLng(
+                        this.locations[0].lat,
+                        this.locations[0].lng,
+                    ),
+                    travelMode: mode,
+                };
+                directionsService.route(request, (result, status) => {
+                    console.log(mode);
+                    console.log(result);
+                    this[dataName] = result.routes[0].legs[0].duration.text;
+                });
+            }
+        },
         created() {
             this.$q.loading.show({
                 message: 'Loading job info',
             });
-            const { id } = this.$route.params;
+            const {id} = this.$route.params;
 
             if (!id) {
                 this.$router.push('/404');
@@ -139,10 +204,15 @@
 
             jobsApi.get(`/job/${id}`).then(res => {
                 this.job = res.data.data;
+                this.getTravelTimeFor('DRIVING', 'drivingTime');
+                this.getTravelTimeFor('BICYCLING', 'bikingTime');
+                this.getTravelTimeFor('TRANSIT', 'transitTime');
+                this.getTravelTimeFor('WALKING', 'walkingTime');
                 this.$q.loading.hide();
             }).catch((err) => {
+                console.log(err);
                 this.$q.loading.hide();
-                this.$router.push('/404');
+                // this.$router.push('/404');
             });
         },
     };
