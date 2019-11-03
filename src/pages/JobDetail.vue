@@ -40,19 +40,22 @@
                 rounded
                 size="lg"
                 color="primary"
-                class="my-btn-center"
+                class="q-pt-sm my-btn-center"
                 label="APPLY NOW"
                 type="a"
                 target="_blank"
                 :href="job.url"
             />
+<!--:pins="pins"-->
+            <google-map v-if="locations.length" :pins="locations"/>
 
             <q-card flat class="address-section text-primary">
                 <q-card-section>
                     <q-btn
                         unelevated
                         rounded
-                        size="lg"
+                        class="q-px-xl q-py-sm"
+                        size="md"
                         color="primary"
                         label="Map"
                     />
@@ -68,8 +71,12 @@
 
 <script>
     import { jobsApi } from '../common/http';
+    import GoogleMap from "../components/GoogleMap";
 
     export default {
+        components: {
+            GoogleMap
+        },
         data: () => ({
             job: null,
         }),
@@ -80,13 +87,22 @@
                 }
                 return this.job.req_education;
             },
-
             jobType() {
                 if (this.job.job_type === 'full_time') {
                     return 'Full Time';
                 }
                 return this.job.job_type;
             },
+            locations() {
+                if(this.job == null) return [];
+
+                return this.job.locations.data
+                    .map(location => ({
+                        lat: parseFloat(location.lat),
+                        lng: parseFloat(location.lng),
+                    }))
+                    .filter(location => location.lng && location.lat);
+            }
         },
         created() {
             this.$q.loading.show({
@@ -103,7 +119,6 @@
             jobsApi.get(`/job/${id}`).then(res => {
                 this.job = res.data.data;
                 this.$q.loading.hide();
-                console.log(this.job);
             }).catch((err) => {
                 this.$q.loading.hide();
                 this.$router.push('/404');
