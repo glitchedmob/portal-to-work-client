@@ -47,6 +47,8 @@
                 :href="job.url"
             />
 
+            <google-map v-if="!pins" :pins="pins" />
+
             <q-card flat class="address-section text-primary">
                 <q-card-section>
                     <q-btn
@@ -69,10 +71,25 @@
 
 <script>
     import { jobsApi } from '../common/http';
+    import GoogleMap from "../components/GoogleMap";
 
     export default {
+        components: {
+            GoogleMap
+        },
         data: () => ({
             job: null,
+            locations: null,
+            pins: [
+                {
+                    lat: this.locations[0].lat,
+                    lng: this.locations[0].lng,
+                },
+                {
+                    lat: this.locations[1].lat,
+                    lng: this.locations[1].lng,
+                }
+            ]
         }),
         computed: {
             educationRequirements() {
@@ -103,8 +120,10 @@
 
             jobsApi.get(`/job/${id}`).then(res => {
                 this.job = res.data.data;
+                this.locations = this.job.locations.data;
                 this.$q.loading.hide();
                 console.log(this.job);
+                console.log(this.locations);
             }).catch((err) => {
                 this.$q.loading.hide();
                 this.$router.push('/404');
