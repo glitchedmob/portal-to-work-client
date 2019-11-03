@@ -18,6 +18,11 @@ export default function (/* { ssrContext } */) {
                 latitude: '',
                 longitude: '',
             },
+            nearby: true,
+            radius: '',
+            educationLevel: 'all',
+            jobType: 'all',
+            currentTab: 'map',
         },
         mutations: {
             initialiseStore(state) {
@@ -51,6 +56,21 @@ export default function (/* { ssrContext } */) {
             updateUserId(state, value) {
                 state.userId = value;
             },
+            updateNearby(state, value) {
+                state.nearby = value;
+            },
+            updateRadius(state, value) {
+                state.radius = value;
+            },
+            updateEducationLevel(state, value) {
+                state.educationLevel = value;
+            },
+            updateJobType(state, value) {
+                state.jobType = value;
+            },
+            updateCurrentTab(state, value) {
+                state.currentTab = value;
+            }
         },
         getters: {},
         actions: {

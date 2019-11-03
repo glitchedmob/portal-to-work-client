@@ -18,18 +18,18 @@
                 </q-expansion-item>
 
                 <q-item class="">
-                        <q-item-label>Salary</q-item-label>
+                    <q-item-label>Salary</q-item-label>
                     <q-space/>
-                        <q-item-label>{{ job.pay_rate }}</q-item-label>
+                    <q-item-label>{{ job.pay_rate }}</q-item-label>
                 </q-item>
 
-                <q-item class="">
+                <q-item class="" v-if="job.job_type">
                     <q-item-label>Job Type</q-item-label>
                     <q-space/>
                     <q-item-label>{{ jobType }}</q-item-label>
                 </q-item>
 
-                <q-item class="">
+                <q-item class="" v-if="job.req_education">
                     <q-item-label>Requirements</q-item-label>
                     <q-space/>
                     <q-item-label>{{ educationRequirements }}</q-item-label>
@@ -40,26 +40,34 @@
                 rounded
                 size="lg"
                 color="primary"
-                class="my-btn-center"
+                class="q-pt-sm my-btn-center"
                 label="APPLY NOW"
                 type="a"
                 target="_blank"
                 :href="job.url"
             />
 
+            <google-map v-if="locations.length" :pins="locations" class="map"/>
+
             <q-card flat class="address-section text-primary">
                 <q-card-section>
                     <q-btn
                         unelevated
                         rounded
-                        size="lg"
+                        class="q-px-xl q-py-sm"
+                        size="md"
                         color="primary"
                         label="Map"
+                        type="a"
+                        :href="getDirections"
+                        target="_blank"
                     />
                 </q-card-section>
                 <q-card-section class="q-py-none">
                     <q-item-label>{{ job.locations.data[0].street }}</q-item-label>
-                    <q-item-label caption>{{ job.locations.data[0].city }}, {{ job.locations.data[0].state }} {{ job.locations.data[0].zipcode }}</q-item-label>
+                    <q-item-label caption>{{ job.locations.data[0].city }}, {{ job.locations.data[0].state }} {{
+                        job.locations.data[0].zipcode }}
+                    </q-item-label>
                 </q-card-section>
             </q-card>
         </q-page>
@@ -68,24 +76,53 @@
 
 <script>
     import { jobsApi } from '../common/http';
+    import GoogleMap from '../components/GoogleMap';
+
+    import jobTypes from '../common/job-types';
+    import educationLevels from '../common/education-levels';
 
     export default {
+        components: {
+            GoogleMap,
+        },
         data: () => ({
             job: null,
         }),
         computed: {
             educationRequirements() {
-                if (this.job.req_education === 'high_school') {
-                    return 'High School or Equiv';
-                }
-                return this.job.req_education;
+                return educationLevels
+                    .filter(level => level.value === this.job.req_education)
+                    .map(level => level.label)[0];
             },
-
             jobType() {
-                if (this.job.job_type === 'full_time') {
-                    return 'Full Time';
+                return jobTypes
+                    .filter(type => type.value === this.job.job_type)
+                    .map(type => type.label)[0];
+            },
+            locations() {
+                if (this.job == null) return [];
+
+                return this.job.locations.data
+                    .map(location => ({
+                        lat: parseFloat(location.lat),
+                        lng: parseFloat(location.lng),
+                    }))
+                    .filter(location => location.lng && location.lat);
+            },
+            getDirections() {
+                let base = 'https://www.google.com/maps/dir/?api=1&destination=';
+                let next = '';
+
+                if (this.job.locations.data[0].lat !== null && this.job.locations.data[0].lng !== null) {
+                    next = encodeURIComponent(this.job.locations.data[0].lat) + "," +
+                        encodeURIComponent(" " + this.job.locations.data[0].lng);
+                } else {
+                    next = encodeURIComponent(this.job.locations.data[0].street + " ") +
+                        encodeURIComponent(this.job.locations.data[0].city) + "," +
+                            encodeURIComponent(" " + this.job.locations.data[0].state + " ") +
+                                encodeURIComponent(this.job.locations.data[0].zipcode);
                 }
-                return this.job.job_type;
+                return base + next;
             },
         },
         created() {
@@ -94,7 +131,7 @@
             });
             const { id } = this.$route.params;
 
-            if(!id) {
+            if (!id) {
                 this.$router.push('/404');
                 this.$q.loading.hide();
                 return;
@@ -103,7 +140,6 @@
             jobsApi.get(`/job/${id}`).then(res => {
                 this.job = res.data.data;
                 this.$q.loading.hide();
-                console.log(this.job);
             }).catch((err) => {
                 this.$q.loading.hide();
                 this.$router.push('/404');
@@ -125,5 +161,9 @@
     .address-section {
         display: flex;
         align-items: center;
+    }
+
+    .map {
+        height: 200px;
     }
 </style>
