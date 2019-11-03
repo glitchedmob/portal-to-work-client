@@ -22,7 +22,7 @@ export default function (/* { ssrContext } */) {
             radius: '',
             educationLevel: 'all',
             jobType: 'all',
-            currentTab: 'map',
+            currentTab: 'list',
         },
         mutations: {
             initialiseStore(state) {
