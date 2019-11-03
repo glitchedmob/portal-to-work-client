@@ -12,9 +12,7 @@ export async function setup() {
 
     await loadScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js');
 
-    const userId = await getOneSignalUserId();
-
-    console.log(`userId: ${userId}`);
+    return await getOneSignalUserId();
 }
 
 function getOneSignalUserId() {

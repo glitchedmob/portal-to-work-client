@@ -15,7 +15,8 @@ export default function (/* { ssrContext } */) {
             coordinates: {
                 latitude: '',
                 longitude: '',
-            }
+            },
+            userId: '',
         },
         mutations: {
             initialiseStore(state) {
@@ -45,6 +46,9 @@ export default function (/* { ssrContext } */) {
             updateCoordinates(state, { latitude, longitude }) {
                 state.coordinates.latitude = latitude;
                 state.coordinates.longitude = longitude;
+            },
+            updateUserId(state, value) {
+                state.userId = value;
             }
         },
         getters: {},
