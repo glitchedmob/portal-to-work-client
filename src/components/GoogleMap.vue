@@ -7,8 +7,8 @@
     import { mapState } from 'vuex';
     import { googleMaps } from '../common/google-maps';
 
-    import * as defaultIcon from '../assets/dark-dot.png';
-    import * as userIcon from '../assets/light-home.png';
+    import * as defaultIcon from '../assets/circle.png';
+    import * as userIcon from '../assets/home.png';
     import googleMapsStyle from '../common/google-map-style';
 
     export default {
@@ -19,9 +19,6 @@
         markers: [],
         userMarker: null,
         userIcon: null,
-        data() {
-            return {};
-        },
         computed: {
             ...mapState(['coordinates']),
         },
