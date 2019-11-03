@@ -22,7 +22,6 @@
 
 <script>
     import EventCard from '../components/EventCard';
-    import { jobsApi } from '../common/http';
 
     export default {
         data: () => ({
@@ -30,18 +29,7 @@
         }),
         components: { EventCard },
         created() {
-            this.$q.loading.show({
-                message: 'Loading events info',
-            });
-
-            jobsApi.get('/event').then(res => {
-                this.events = res.data.data;
-                this.$q.loading.hide();
-                console.log(this.events);
-            }).catch(() => {
-                this.$q.loading.hide();
-                this.$router.push('/404');
-            });
+            this.events = JSON.parse(localStorage.getItem('events'));
         },
     };
 </script>

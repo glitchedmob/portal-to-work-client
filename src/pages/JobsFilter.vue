@@ -5,7 +5,7 @@
                 <q-form class="text-primary">
                     <q-item>
                         <q-item-section>
-                            <q-item-label>Near Me</q-item-label>
+                            <q-item-label>Only Jobs Near Me</q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
                             <q-toggle
@@ -17,10 +17,11 @@
                     <q-item>
                         <q-input
                             class="form-item-width"
-                            placeholder="Radius"
+                            label="Radius"
                             :value="radius"
                             @input="updateRadius"
-                            suffix="mi"/>
+                            suffix="mi"
+                        />
                     </q-item>
                     <q-item>
                         <q-select
@@ -28,7 +29,10 @@
                             :options="educationLevelOptions"
                             :value="educationLevel"
                             @input="updateEducationLevel"
-                            label="Education Level"/>
+                            label="Education Level"
+                            emit-value
+                            map-options
+                        />
                     </q-item>
                     <q-item>
                         <q-select
@@ -36,7 +40,10 @@
                             :options="jobTypeOptions"
                             :value="jobType"
                             @input="updateJobType"
-                            label="Job Type"/>
+                            label="Job Type"
+                            emit-value
+                            map-options
+                        />
                     </q-item>
                 </q-form>
             </q-page>
@@ -47,15 +54,13 @@
 <script>
     import { mapState, mapMutations } from 'vuex';
 
+    import jobTypes from '../common/job-types';
+    import educationLevels from '../common/education-levels';
+
     export default {
         data: () => ({
-            educationLevelOptions: [
-                'High School or Equiv',
-            ],
-
-            jobTypeOptions: [
-                'All',
-            ],
+            educationLevelOptions: educationLevels,
+            jobTypeOptions: jobTypes,
         }),
         computed: {
             ...mapState(['nearby', 'radius', 'educationLevel', 'jobType']),

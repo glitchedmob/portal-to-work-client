@@ -7,6 +7,7 @@
 <script>
     import { mapMutations } from 'vuex';
     import { setup } from './common/onesignal';
+    import { jobsApi } from './common/http';
 
     export default {
         name: 'App',
@@ -16,9 +17,17 @@
             setup().then((userId) => {
                 this.updateUserId(userId);
             });
+
+            this.downloadAllEvents();
         },
         methods: {
             ...mapMutations(['initialiseStore', 'updateUserId']),
+            async downloadAllEvents() {
+                const res = await jobsApi.get('/event');
+                const events = res.data.data;
+
+                localStorage.setItem('events', JSON.stringify(events));
+            }
         },
     };
 </script>

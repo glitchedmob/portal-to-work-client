@@ -16,19 +16,19 @@
                     </q-card>
                 </q-expansion-item>
 
-                <q-item class="">
+                <q-item>
                     <q-item-label>Salary</q-item-label>
                     <q-space/>
                     <q-item-label>{{ job.pay_rate }}</q-item-label>
                 </q-item>
 
-                <q-item class="">
+                <q-item v-if="job.job_type">
                     <q-item-label>Job Type</q-item-label>
                     <q-space/>
                     <q-item-label>{{ jobType }}</q-item-label>
                 </q-item>
 
-                <q-item class="">
+                <q-item v-if="job.req_education">
                     <q-item-label>Requirements</q-item-label>
                     <q-space/>
                     <q-item-label>{{ educationRequirements }}</q-item-label>
@@ -47,6 +47,7 @@
             />
 
             <google-map v-if="locations.length" :pins="locations"/>
+            
             <div class="row q-py-md">
                 <q-icon
                     class="col"
@@ -79,6 +80,7 @@
                 <p class="col">{{ transitTime }}</p>
                 <p class="col">{{ bikingTime }}</p>
             </div>
+
             <q-card flat class="address-section text-primary">
                 <q-card-section>
                     <q-btn
@@ -88,6 +90,9 @@
                         size="md"
                         color="primary"
                         label="Map"
+                        type="a"
+                        :href="getDirections"
+                        target="_blank"
                     />
                 </q-card-section>
                 <q-card-section class="q-py-none">
@@ -102,14 +107,18 @@
 </template>
 
 <script>
-    import {jobsApi} from '../common/http';
+
+    import { jobsApi } from '../common/http';
     import GoogleMap from "../components/GoogleMap";
     import { mapState }  from 'vuex';
-    import {googleMaps} from "../common/google-maps";
+    import { googleMaps } from "../common/google-maps";
+    import jobTypes from '../common/job-types';
+    import educationLevels from '../common/education-levels';
+
 
     export default {
         components: {
-            GoogleMap
+            GoogleMap,
         },
         data: () => ({
             job: null,
@@ -121,16 +130,14 @@
         computed: {
             ...mapState(['coordinates']),
             educationRequirements() {
-                if (this.job.req_education === 'high_school') {
-                    return 'High School or Equiv';
-                }
-                return this.job.req_education;
+                return educationLevels
+                    .filter(level => level.value === this.job.req_education)
+                    .map(level => level.label)[0];
             },
             jobType() {
-                if (this.job.job_type === 'full_time') {
-                    return 'Full Time';
-                }
-                return this.job.job_type;
+                return jobTypes
+                    .filter(type => type.value === this.job.job_type)
+                    .map(type => type.label)[0];
             },
             locations() {
                 if (this.job == null) return [];
@@ -141,7 +148,22 @@
                         lng: parseFloat(location.lng),
                     }))
                     .filter(location => location.lng && location.lat);
-            }
+            },
+            getDirections() {
+                let base = 'https://www.google.com/maps/dir/?api=1&destination=';
+                let next = '';
+
+                if (this.job.locations.data[0].lat !== null && this.job.locations.data[0].lng !== null) {
+                    next = encodeURIComponent(this.job.locations.data[0].lat) + "," +
+                        encodeURIComponent(" " + this.job.locations.data[0].lng);
+                } else {
+                    next = encodeURIComponent(this.job.locations.data[0].street + " ") +
+                        encodeURIComponent(this.job.locations.data[0].city) + "," +
+                            encodeURIComponent(" " + this.job.locations.data[0].state + " ") +
+                                encodeURIComponent(this.job.locations.data[0].zipcode);
+                }
+                return base + next;
+            },
         },
         methods: {
 
@@ -209,5 +231,9 @@
     .address-section {
         display: flex;
         align-items: center;
+    }
+
+    .map {
+        height: 200px;
     }
 </style>
