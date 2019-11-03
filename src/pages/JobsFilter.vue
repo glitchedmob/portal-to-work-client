@@ -15,6 +15,17 @@
                         </q-item-section>
                     </q-item>
                     <q-item>
+                        <q-item-section>
+                            <q-item-label>Show Newest Jobs First</q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                            <q-toggle
+                                color="primary"
+                                :value="sortByDate"
+                                @input="updateSortByDate"/>
+                        </q-item-section>
+                    </q-item>
+                    <q-item>
                         <q-input
                             class="form-item-width"
                             label="Radius"
@@ -63,11 +74,12 @@
             jobTypeOptions: jobTypes,
         }),
         computed: {
-            ...mapState(['nearby', 'radius', 'educationLevel', 'jobType']),
+            ...mapState(['nearby', 'sortByDate', 'radius', 'educationLevel', 'jobType']),
         },
         methods: {
             ...mapMutations([
                 'updateNearby',
+                'updateSortByDate',
                 'updateRadius',
                 'updateEducationLevel',
                 'updateJobType',
