@@ -90,19 +90,12 @@
 </script>
 
 <style lang="scss">
-    #notifications-page {
-    }
 
     .notifications-page-container {
         margin: 0 auto;
-        width: 75%;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-
-        @media (max-width: 600px) {
-        width: 95%
-        }
     }
 
     .card-container {

@@ -6,15 +6,13 @@ export async function setup() {
 
     const isLocalHost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
 
-    if (Platform.is.cordova || Platform.is.capacitor) {
+    if (Platform.is.cordova || Platform.is.capacitor || isLocalHost) {
         return;
     }
 
     await loadScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js');
 
-    const userId = await getOneSignalUserId();
-
-    console.log(`userId: ${userId}`);
+    return await getOneSignalUserId();
 }
 
 function getOneSignalUserId() {
