@@ -40,6 +40,8 @@
                 </q-item>
             </q-list>
 
+            <google-map v-if="location" :pins="location"/>
+
             <q-card flat class="address-section text-primary">
                 <q-card-section>
                     <q-btn
@@ -61,8 +63,12 @@
 
 <script>
     import { jobsApi } from '../common/http';
+    import GoogleMap from "../components/GoogleMap";
 
     export default {
+        components: {
+            GoogleMap
+        },
         data: () => ({
             event: null,
         }),
@@ -82,6 +88,7 @@
                 this.event = res.data.data;
                 this.$q.loading.hide();
                 console.log(this.event);
+                console.log(this.event.location)
             }).catch(() => {
                 this.$q.loading.hide();
                 this.$router.push('/404');
@@ -119,6 +126,18 @@
             getFullTime() {
                 let date = new Date(this.event.date_begin);
                 return date.toString().substring(16,21)
+            },
+            location() {
+                if(this.event == null) return false;
+
+                const { lat, lng } = this.event.location;
+
+                if(!lat && !lng) return false;
+
+                return [{
+                    lat: parseFloat(lat),
+                    lng: parseFloat(lng),
+                }];
             }
         },
     }
