@@ -24,6 +24,7 @@
         "google-maps": "^3.3.0",
         "quasar": "^1.0.0",
         "timeago.js": "^4.0.1",
+        "vue-analytics": "^5.17.2",
         "vue-instantsearch": "^2.6.0"
     },
     "devDependencies": {
